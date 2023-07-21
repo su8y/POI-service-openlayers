@@ -29,6 +29,14 @@ brew install docker-desktop
 docker pull postgis/postgis:latest
 docker pull adoptopenjdk/openjdk11:latest
 ```
-5. run ddl.sql & data.sql after running docker conatainer
+5. run ddl.sql & data.sql after running docker conatainer   
+   **easy Command**
+    ```bash
+   $ docker compose up 
+   $ docker exec -it db /bin/bash
+   # in bash 
+   $ psql -Upostgres project
+   # work something..
+   ```
  
 
