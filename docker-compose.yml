@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  postdb:
+    image: postgis/postgis:latest
+    container_name: db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USERNAME=postgres
+    volumes:
+      - proejct-db:/var/lib/postgresql/data
+    networks:
+      - project
+volumes:
+  proejct-db:
+    external: true
+networks:
+  project:
