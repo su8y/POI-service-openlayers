@@ -15278,7 +15278,7 @@
 							},
 							"name": "lclasdc",
 							"type": "VARCHAR",
-							"length": "20"
+							"length": 0
 						},
 						{
 							"_type": "ERDColumn",
@@ -15298,7 +15298,7 @@
 							},
 							"name": "mlsfcdc",
 							"type": "VARCHAR",
-							"length": "20"
+							"length": 0
 						},
 						{
 							"_type": "ERDColumn",
@@ -15318,7 +15318,7 @@
 							},
 							"name": "sclasdc",
 							"type": "varchar",
-							"length": "20"
+							"length": 0
 						},
 						{
 							"_type": "ERDColumn",
@@ -15338,7 +15338,7 @@
 							},
 							"name": "dclasdc",
 							"type": "varchar",
-							"length": "20"
+							"length": 0
 						},
 						{
 							"_type": "ERDColumn",
@@ -15358,7 +15358,7 @@
 							},
 							"name": "bclasdc",
 							"type": "varchar",
-							"length": "20"
+							"length": 0
 						}
 					]
 				}

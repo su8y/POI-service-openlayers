@@ -35,38 +35,21 @@ create table waypoint(
 	on delete cascade 
 	on update cascade 
 );
-create table large_category(
-	id SERIAL primary key,
-	name VARCHAR(20)
-);
-create table middle_category(
-	id SERIAL primary key,
-	large_category_id INTEGER ,
-	name VARCHAR(20),
-	constraint fk_large_category_id foreign key(large_category_id)
-	references large_category(id)
-);
-create table small_category(
-	id SERIAL primary key,
-	middle_category_id INTEGER ,
-	name VARCHAR(20),
-	constraint fk_middle_category_id foreign key(middle_category_id)
-	references middle_category(id)
-);
-create table sub_category(
-	id SERIAL primary key,
-	small_category_id INTEGER ,
-	name VARCHAR(20),
-	constraint fk_small_category_id foreign key(small_category_id)
-	references small_category(id)
-);
-create table category_integration(
-	id SERIAL primary key,
-	name varchar(20),
-	sub_category_id INTEGER,
-	constraint fk_sub_category foreign key(sub_category_id)
-	references sub_category(id)
+CREATE TABLE public.category (
+	category_code int4 NOT NULL,
+	lclascd int4 NULL,
+	lclasdc varchar NULL,
+	mlsfccd int4 NULL,
+	mlsfcdc varchar NULL,
+	sclascd int4 NULL,
+	sclasdc varchar NULL,
+	dclascd int4 NULL,
+	dclasdc varchar NULL,
+	bclascd int4 NULL,
+	bclasdc varchar NULL,
+	rm varchar(50) NULL,
+	CONSTRAINT category_pkey PRIMARY KEY (category_code)
 );
 alter table POI add constraint fk_category_id foreign key(category_id)
-references category_integration(id);
+references category(category_code);
 
