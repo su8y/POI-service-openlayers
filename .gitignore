@@ -2,3 +2,11 @@
 .env
 **-secrect.**
 
+# Core
+.core/HELP.md
+.core/.mvn/**
+.core/target/
+.core/!.mvn/wrapper/maven-wrapper.jar
+.core/!**/src/main/**/target/
+.core/!**/src/test/**/target/
+.core/build/
