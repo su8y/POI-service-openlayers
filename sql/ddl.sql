@@ -4,17 +4,19 @@ create table MEMBER(
  email VARCHAR(50) unique,
  role BOOLEAN default false
 );
-create table POI(
-	id SERIAL primary key,
-	name VARCHAR(50) not null,
-	tel_no VARCHAR(15),
-	category_id INTEGER, -- to be : must make category_id constraint
-	coordinates geometry not null, 
-	description VARCHAR(500),
-	member_id VARCHAR(50) not null,
-	CONSTRAINT fk_member_id foreign key(member_id) references MEMBER(id)
-	on delete cascade 
-	on UPDATE cascade
+CREATE TABLE poi (
+	id serial4 NOT NULL,
+	"name" varchar(50) NOT NULL,
+	tel_no varchar(15) NULL,
+	category_code int4 NULL,
+	coordinates public.geometry NULL,
+	description varchar(500) NULL,
+	member_id varchar(50) NULL,
+	lon float4 NULL,
+	lat float4 NULL,
+	CONSTRAINT poi_pkey PRIMARY KEY (id),
+	CONSTRAINT fk_category_id FOREIGN KEY (category_code) REFERENCES public.category(category_code),
+	CONSTRAINT fk_member_id FOREIGN KEY (member_id) REFERENCES public."member"(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 create table route(
 	id SERIAL primary key,
