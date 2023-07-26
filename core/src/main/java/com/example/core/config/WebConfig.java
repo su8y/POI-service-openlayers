@@ -10,6 +10,9 @@ public class WebConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         WebMvcConfigurer.super.addViewControllers(registry);
         registry.addViewController("/home").setViewName("zido");
+        registry.addViewController("/signIn").setViewName("user/sign-in");
+        registry.addViewController("/signUp").setViewName("user/sign-up");
+        registry.addViewController("/poi/save").setViewName("poi/save");
     }
 
     @Override
