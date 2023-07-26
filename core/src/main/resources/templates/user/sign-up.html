@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>SignUp Page</title>
     <th:block th:insert="/flagment/header.html :: my-header"/>
@@ -13,6 +13,7 @@
     <form>
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Id</label>
+            <div class="alert alert-danger" role="alert">아이디가 이미 존재합니다.</div>
             <input type="text" class="form-control" id="exampleInputId" aria-describedby="idHelp">
             <div id="idHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
