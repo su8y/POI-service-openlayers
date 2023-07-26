@@ -1,11 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-  
+    <link rel="stylesheet" href="../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"
+    />
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
+<div th:fragment="my-navbar">
+    <nav class="navbar px-2">
+        <a href="/home" th:href="@{/home}" class="navbar-brand">Postgis Project</a>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/zido" th:href="@{/zido}">지도</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">경로</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/zido/path" th:href="@{/home/route}">경로찾기</a></li>
+                    <li><a class="dropdown-item" href="/path/find" th:href="@{/route/save}">저장한 경로</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Separated link</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">POI</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/poi/save">POI 저장</a></li>
+                    <li><a class="dropdown-item" href="/poi/edit">POI 관리</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Separated link</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="d-flex gap-2">
+            <li>
+                <a href="/user/sign-in" th:href="@{/signIn}" class="btn btn-primary">로그인</a>
+            </li>
+            <li>
+                <a href="/user/sign-up" th:href="@{/signUp}" class="btn btn-secondary">회원가입</a>
+            </li>
+        </ul>
+    </nav>
+</div>
 
 </body>
 </html>
