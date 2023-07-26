@@ -1,0 +1,23 @@
+@import "ol/ol.css";
+
+/*@import "node_modules/ol/ol.css";*/
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+ul,li{
+    list-style: none;
+}
+a {
+    text-decoration: none;
+}
+
+#map {
+    z-index:0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}

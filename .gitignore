@@ -10,3 +10,6 @@
 .core/!**/src/main/**/target/
 .core/!**/src/test/**/target/
 .core/build/
+
+**/node_modules/
+**/node/

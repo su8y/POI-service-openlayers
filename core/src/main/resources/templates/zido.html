@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>zido</title>
+    <!--    <link rel="stylesheet" th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"-->
+    <!--          href="../static/node_modules/bootstrap/dist/css/bootstrap.min.css"/>-->
+    <link rel="stylesheet" href="../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"
+    />
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
+    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+    <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+<nav class="navbar px-2">
+    <div class="navbar-brand">Postgis Project</div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">지도</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">경로</a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">경로찾기</a></li>
+                <li><a class="dropdown-item" href="#">저장한 경로</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Separated link</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">POI</a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">POI 저장</a></li>
+                <li><a class="dropdown-item" href="#">POI 관리</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Separated link</a></li>
+            </ul>
+        </li>
+    </ul>
+    <ul class="d-flex gap-2">
+        <li>
+            <button type="button" class="btn btn-primary">로그인</button>
+        </li>
+        <li>
+            <button type="button" class="btn btn-secondary">회원가입</button>
+        </li>
+    </ul>
+</nav>
+<div class="container">
+    <div class="row gap-3">
+        <input class="col-6 form-control form-control-sm w-25" type="text" placeholder="입력해주세요 .. "/>
+        <div class="col d-flex flex-column align-items-center">
+            <div class="">1차 분류</div>
+            <select class="form-select rounded-5" aria-label="Default select example">
+                <option selected>None</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+        <div class="col d-flex flex-column align-items-center">
+            <div class="">1차 분류</div>
+            <select class="form-select rounded-5 " aria-label="Default select example">
+                <option selected>None</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+        <div class="col d-flex flex-column align-items-center">
+            <div class="">1차 분류</div>
+            <select class="form-select rounded-5 " aria-label="Default select example">
+                <option selected>None</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+        <div class="col d-flex flex-column align-items-center">
+            <div class="">1차 분류</div>
+            <select class="form-select rounded-5 " aria-label="Default select example">
+                <option selected>None</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+        <div class="col d-flex flex-column align-items-center">
+            <div class="">1차 분류</div>
+            <select class="form-select rounded-5 " aria-label="Default select example">
+                <option selected>None</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
+        </div>
+
+    </div>
+    <div class="row">
+        <div id="map" class="map"></div>
+    </div>
+</div>
+
+<!--slider -->
+<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+        aria-controls="offcanvasScrolling">Enable body scrolling
+</button>
+
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+     id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+    <div class="offcanvas-header align-items-start ">
+        <div class="d-flex flex-column">
+            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">검색어 : 0000</h5>
+            <p>산업>서비스산업>기타서비스 검색결과</p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column gap-3"
+         style="background-color:#dddddd;">
+        <div class="d-flex flex-column align-items-center bg-white">
+            <img src="../static/images/img.png" th:src="@{/images/img.png}" alt="순대국이미지"
+                 style="
+                     width: 100%;
+                     height: 121px;
+                     z-index: 8;
+                "
+            >
+            <div class="rounded-5 d-flex w-75 position-relative px-5"
+                 style="
+            background-color: #eeeeee;
+            height: 50px;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            top:-25px;
+            z-index: 9;
+            ">
+                <div>
+                    00용역
+                    <p>111-111-111</p>
+                </div>
+                <div>인력공급</div>
+            </div>
+            <div>산업/서비스산업/기타서비스</div>
+            <span>
+                <p>asdfasdfasdf</p>
+                <p>asdfasdfasdf</p>
+            </span>
+            <div>
+                <div class="btn">경로 찾기</div>
+                <div class="btn">로드뷰</div>
+            </div>
+
+        </div>
+        <div class="d-flex align-items-center bg-white">
+            <div class="">00순대국</div>
+            <div class="text-black-50">
+                <p>
+                    산업/서비스산업/기타서비스
+                </p>
+                <p>
+                    산업/서비스산업/기타서비스
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var layers = [
+        new ol.layer.Tile({
+            source: new ol.source.OSM()
+        }),
+        // new ol.layer.Tile({
+        //     extent: [-13884991, 2870341, -7455066, 6338219],
+        //     source: new ol.source.TileWMS({
+        //         url: 'https://ahocevar.com/geoserver/wms',
+        //         params: {'LAYERS': 'topp:states', 'TILED': true},
+        //         serverType: 'geoserver',
+        //         // Countries have transparency, so do not fade tiles:
+        //         transition: 0
+        //     })
+        // })
+    ];
+    var map = new ol.Map({
+        layers: layers,
+        target: 'map',
+        view: new ol.View({
+            center: [-10997148, 4569099],
+            zoom: 4
+        })
+    });
+</script>
+<script src="../static/node_modules/jquery/dist/jquery.min.js"
+        th:src="@{/node_modules/jquery/dist/jquery.min.js}"></script>
+<script src="../static/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+        th:src="@{/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js}"
+></script>
+<script src="../static/node_modules/popper.js/dist/umd/popper.min.js"
+        th:src="@{/node_modules/popper.js/dist/umd/popper.min.js}"
+></script>
+</body>
+</html>

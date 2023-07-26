@@ -1,0 +1,22 @@
+{
+  "type": "module",
+  "name": "static",
+  "version": "1.0.0",
+  "main": "js/index.js",
+  "dependencies": {
+    "bootstrap": "^5.3.0",
+    "jquery": "^3.7.0",
+    "ol": "^7.4.0",
+    "popper.js": "^1.16.1"
+  },
+  "scripts": {
+    "dev": "webpack -w --mode development --devtool inline-source-map",
+    "start": "npm run dev"
+  },
+  "author": "suby00",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^10.2.0"
+  },
+  "description": ""
+}
