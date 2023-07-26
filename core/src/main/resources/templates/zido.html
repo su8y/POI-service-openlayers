@@ -15,46 +15,7 @@
     <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
-<nav class="navbar px-2">
-    <div class="navbar-brand">Postgis Project</div>
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">지도</a>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">경로</a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">경로찾기</a></li>
-                <li><a class="dropdown-item" href="#">저장한 경로</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="#">Separated link</a></li>
-            </ul>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">POI</a>
-            <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">POI 저장</a></li>
-                <li><a class="dropdown-item" href="#">POI 관리</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                <li>
-                    <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" href="#">Separated link</a></li>
-            </ul>
-        </li>
-    </ul>
-    <ul class="d-flex gap-2">
-        <li>
-            <button type="button" class="btn btn-primary">로그인</button>
-        </li>
-        <li>
-            <button type="button" class="btn btn-secondary">회원가입</button>
-        </li>
-    </ul>
-</nav>
+<th:block th:replace="/flagment/nav.html :: my-navbar"></th:block>
 <div class="container">
     <div class="row gap-3">
         <input class="col-6 form-control form-control-sm w-25" type="text" placeholder="입력해주세요 .. "/>
