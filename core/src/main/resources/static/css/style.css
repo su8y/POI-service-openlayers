@@ -1,27 +1,34 @@
 @import "ol/ol.css";
+@import "route/index.css";
 
 /*@import "node_modules/ol/ol.css";*/
 
-*{
+* {
     font-size: 14px;
 }
+
 html,
 body {
     margin: 0;
     padding: 0;
     height: 100%;
 }
-ul,li{
+
+ul, li {
     list-style: none;
 }
+
 a {
     text-decoration: none;
     color: black;
 }
 
 #map {
-    z-index:0;
+    z-index: 0;
     top: 0;
     bottom: 0;
     width: 100%;
+}
+fs-0{
+    font-size:12px;
 }
