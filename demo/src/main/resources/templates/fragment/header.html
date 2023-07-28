@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:fragment="my-header">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+        <link rel="stylesheet" href="../../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
+              th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"
+        />
+        <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
+        <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+        <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
+        <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}">
+        <script src="../static/node_modules/jquery/dist/jquery.min.js"
+                th:src="@{/node_modules/jquery/dist/jquery.min.js}"></script>
+        <script src="../static/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+                th:src="@{/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js}"
+        ></script>
+        <script src="../static/node_modules/popper.js/dist/umd/popper.min.js"
+                th:src="@{/node_modules/popper.js/dist/umd/popper.min.js}"
+        ></script>
+    </th:block>
+</head>
+<body>
+
+</body>
+</html>
