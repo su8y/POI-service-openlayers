@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 @Mapper
-public interface POIMapper
-{
+public interface POIMapper {
     List<POI> selectAll();
+
 }

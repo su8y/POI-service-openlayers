@@ -1,2 +1,10 @@
-package com.example.core.config;public class AppConfig {
+package com.example.core.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import javax.sql.DataSource;
+
+@Configuration
+public class AppConfig {
 }

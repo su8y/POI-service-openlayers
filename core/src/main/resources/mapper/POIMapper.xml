@@ -6,4 +6,5 @@
     <select id="selectAll" resultType="com.example.core.model.POI">
         select * from POI;
     </select>
+
 </mapper>

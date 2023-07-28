@@ -1,10 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>경로찾기</title>
+    <th:block th:insert="/fragment/header.html :: my-header"/>
+    <link rel="stylesheet" href="../../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"
 </head>
 <body>
-$END$
+<th:block th:insert="/fragment/nav.html :: my-navbar"/>
+<div class="row vh-100 ">
+    <div class="col-sm-3 container route-list" >
+        <button class="btn text-decoration-underline">경유지 추가하기</button>
+        <div class="row">
+            <label for="start-point">출발지</label>
+            <input type="text" id="start-point"/>
+            <label for="end-point">도착지</label>
+            <input type="text" id="end-point"/>
+        </div>
+        <div class="row">
+            <div class="btn-group">
+                <button class="btn btn-primary">대중교통</button>
+                <button class="btn btn-outline-primary">대중교통</button>
+                <button class="btn btn-outline-primary">대중교통</button>
+            </div>
+        </div>
+        <div class="d-flex flex-column align-items-center bg-white mb-2 route-list-select-item">
+            <img class="route-list-img"
+                 src="../static/images/img.png" th:src="@{/images/img.png}" alt="순대국이미지">
+            <div class="rounded-5 d-flex w-75 position-relative px-5 route-item-title offcanvas-top flex-sm-row flex-column flex-md-row justify-content-between text-start "
+                 >
+                <div>
+                    <div class="d-block h5 ">0asdfasdfasd</div>
+                    <div class="d-block h5 ">-> 도착지</div>
+                </div>
+                <div class="text-end">
+                    43분 13km
+                </div>
+            </div>
+            <div class="w-100 px-2 py-1">
+                <div >00번 타고</div>
+                <div >00번 타고</div>
+                <div >00번 타고</div>
+                <div >00번 타고</div>
+                <div >00번 타고</div>
+                <div class="text-end fs-0">택시비120원</div>
+                <div class="text-end">택시비120원</div>
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center bg-white  route-list-item">
+            <div class="w-100 fs-4 text-center">43분 43km</div>
+
+        </div>
+        <div class="d-flex align-items-center bg-white  route-list-item">
+            <div class="w-100 fs-4 text-center">43분 43km</div>
+        </div>
+        <div class="d-flex align-items-center bg-white  route-list-item">
+            <div class="w-100 fs-4 text-center">43분 43km</div>
+        </div>
+        <div class="d-flex align-items-center bg-white  route-list-item">
+            <div class="w-100 fs-4 text-center">43분 43km</div>
+        </div>
+        <div class="d-flex align-items-center bg-white  route-list-item">
+            <div class="w-100 fs-4 text-center">43분 43km</div>
+        </div>
+        <div class="d-flex align-items-center bg-white  route-list-item">
+            <div class="w-100 fs-4 text-center">43분 43km</div>
+        </div>
+        <div class="d-flex align-items-center bg-white  route-list-item">
+            <div class="w-100 fs-4 text-center">43분 43km</div>
+        </div>
+    </div>
+    <div id="map" class="col"></div>
+</div>
+<script>
+    var layers = [
+        new ol.layer.Tile({
+            source: new ol.source.OSM()
+        }),
+        // new ol.layer.Tile({
+        //     extent: [-13884991, 2870341, -7455066, 6338219],
+        //     source: new ol.source.TileWMS({
+        //         url: 'https://ahocevar.com/geoserver/wms',
+        //         params: {'LAYERS': 'topp:states', 'TILED': true},
+        //         serverType: 'geoserver',
+        //         // Countries have transparency, so do not fade tiles:
+        //         transition: 0
+        //     })
+        // })
+    ];
+    var map = new ol.Map({
+        layers: layers,
+        target: 'map',
+        view: new ol.View({
+            center: [-10997148, 4569099],
+            zoom: 4
+        })
+    });
+</script>
 </body>
 </html>

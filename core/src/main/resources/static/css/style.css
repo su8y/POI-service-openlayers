@@ -1,10 +1,8 @@
 @import "ol/ol.css";
 @import "route/index.css";
 
-/*@import "node_modules/ol/ol.css";*/
-
 * {
-    font-size: 14px;
+    font-size: 15px;
 }
 
 html,

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
     <title>Title</title>
-    <th:block th:insert="/flagment/header.html :: my-header"></th:block>
+    <head>
+    <th:block th:insert="/fragment/header.html :: my-header"></th:block>
     <link rel="stylesheet" href="../../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
           th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"
     />
 </head>
 <body>
-<th:block th:replace="/flagment/nav.html :: my-navbar"></th:block>
+<th:block th:replace="/fragment/nav.html :: my-navbar"></th:block>
 <div class="row justify-content-center">
     <div class="col-3 col-md-2 d-flex flex-column align-items-center">
         <div class="mb-3">1차 분류</div>
