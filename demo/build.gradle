@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.14'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'com.example'
@@ -23,6 +24,7 @@ repositories {
 }
 
 ext {
+    querydslVersion = "5.0.0"
     set('snippetsDir', file("build/generated-snippets"))
 }
 
@@ -40,13 +42,27 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.security:spring-security-test'
+    // test
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.3.1'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.mockito:mockito-core:4.11.0'
+    testImplementation 'com.h2database:h2:2.1.214'
+    // postgis hibernate dependency
     implementation 'org.hibernate:hibernate-core:5.6.15.Final'
     implementation 'org.hibernate:hibernate-spatial:5.6.15.Final'
+
+
+    //    querydsl
+    implementation "com.querydsl:querydsl-jpa:${querydslVersion}"
+    annotationProcessor "com.querydsl:querydsl-apt:${querydslVersion}"
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
 }
 
 tasks.named('test') {
@@ -57,4 +73,24 @@ tasks.named('test') {
 tasks.named('asciidoctor') {
     inputs.dir snippetsDir
     dependsOn test
+}
+def querydslDir = "$buildDir/generated/querydsl"
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+sourceSets {
+    main.java.srcDir querydslDir
+}
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+bootJar {
+    dependsOn asciidoctor // (1)
+    from("${asciidoctor.outputDir}/html5") { // (2)
+        into 'static/docs'
+    }
 }

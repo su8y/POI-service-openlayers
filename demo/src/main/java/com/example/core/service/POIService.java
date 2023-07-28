@@ -42,7 +42,8 @@ public class POIService {
     public List<POI> findAllPOI() {
         return poiMapper.selectAll();
     }
-    public void removePOI(Long id){
+
+    public void removePOI(Long id) {
         POI referenceById = poiRepository.getReferenceById(id);
         poiRepository.delete(referenceById);
     }

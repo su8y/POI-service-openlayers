@@ -27,3 +27,6 @@ mybatis:
   mapper-locations: classpath:mapper/**/*.xml
   type-aliases-package: com.example.core.model
 #    map-underscore-to-camel-case: true
+
+jwt:
+  secret: YXNkZndlZmFzZGZhc2R2a25hd2V2aXVhc25sa3Zram5sYWR2

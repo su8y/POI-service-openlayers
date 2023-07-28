@@ -13,21 +13,57 @@
 
 
     <form>
+        <div th:if="${loginError}" class="alert alert-danger" role="alert">Wrong user or password</div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <label for="memberId" class="form-label">Id</label>
+            <input type="text" class="form-control" id="memberId">
             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
+            <label for="password" class="form-label">Password</label>
+            <input id="password" type="password" class="form-control">
         </div>
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">
             <label class="form-check-label" for="exampleCheck1">Check me out</label>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button id="signin_btn" type="submit" class="btn btn-primary">Submit</button>
     </form>
+    <script type="text/javascript">
+        const submit_btn = document.querySelector("#signin_btn");
+        const memberId = document.querySelector("#memberId");
+        const password = document.querySelector("#password");
+
+        submit_btn.addEventListener("click", async (event) => {
+            event.preventDefault();
+            console.log(memberId.value);
+
+            try{
+                const res = await postSignUp(memberId.value,  password.value);
+                console.log(response)
+            }catch (e){
+                alert(e.message);
+            }
+            // alert("hello")
+        })
+
+        async function postSignUp(memberId, password) {
+            const res = fetch("http://localhost:8080/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({
+                    memberId,
+                    password
+                })
+            })
+            if(!res.ok) throw new Error("ID&PW가 틀렸습니다.");
+            return res.then(res=>res.json());
+        }
+
+    </script>
 
 
 </div>

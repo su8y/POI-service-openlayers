@@ -12,28 +12,63 @@
 ">
     <form>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Id</label>
+            <label for="id" class="form-label">Id</label>
             <div class="alert alert-danger" role="alert">아이디가 이미 존재합니다.</div>
-            <input type="text" class="form-control" id="exampleInputId" aria-describedby="idHelp">
+            <input type="text" class="form-control" id="id" aria-describedby="idHelp">
             <div id="idHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password">
         </div>
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">
             <label class="form-check-label" for="exampleCheck1">Check me out</label>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button id="submit-btn" type="submit" class="btn btn-primary">Submit</button>
     </form>
 
 
 </div>
+<script type="text/javascript">
+    let submit_btn = document.querySelector("#submit-btn");
+    submit_btn.addEventListener('click', async (event) => {
+        event.preventDefault();
+        let memberId = document.querySelector("#id").value;
+        let email = document.querySelector("#email").value;
+        let password = document.querySelector("#password").value;
+        try {
+            const res = await registerFunc(memberId, email, password);
+            console.log(res)
+            alert("resgister Success")
+        } catch (e) {
+            console.log(e)
+        }
+    })
+
+
+    const registerFunc = async (memberId,email,password) => {
+        const res = fetch("http://localhost:8080/auth/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                memberId,
+                email,
+                password
+            })
+        })
+        if(!res.ok) throw new Error("회원가입 실패")
+        return res.then(res => res.json());
+    }
+
+
+</script>
 </body>
 </html>
