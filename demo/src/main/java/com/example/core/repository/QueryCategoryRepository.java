@@ -8,5 +8,6 @@ import java.util.List;
 @Repository
 public interface QueryCategoryRepository {
     List<Category> findCategoryByCurrentValue(Category currentValue);
+    List<Category> findCategoryByCurrentValue();
 
 }

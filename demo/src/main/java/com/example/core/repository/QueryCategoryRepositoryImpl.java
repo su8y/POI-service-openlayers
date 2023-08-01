@@ -2,6 +2,7 @@ package com.example.core.repository;
 
 import com.example.core.model.Category;
 import com.example.core.model.QCategory;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -21,6 +22,14 @@ import static com.example.core.model.QCategory.category;
 public class QueryCategoryRepositoryImpl implements QueryCategoryRepository {
     private final JPAQueryFactory queryFactory;
 
+    public List<Category> findCategoryByCurrentValue() {
+        JPAQuery<?> from = queryFactory.from(category);
+        JPAQuery<Category> where = from.select(Projections.fields(Category.class, category.largeClassId, category.largeClassName))
+                .distinct();
+
+        return where.fetch();
+    }
+
     public List<Category> findCategoryByCurrentValue(Category currentValue) {
         JPAQuery<?> from = queryFactory.from(category);
         JPAQuery<Category> where = from.select(category)
@@ -31,7 +40,7 @@ public class QueryCategoryRepositoryImpl implements QueryCategoryRepository {
                         isEqualsDetailClass(currentValue.getDetailClassId()),
                         isEqualsBottomClass(currentValue.getBottomClassId())
                 )
-                .orderBy(category.categoryCode.desc());
+                .distinct();
 
         return where.fetch();
     }

@@ -1,6 +1,7 @@
 package com.example.core.model;
 
 import com.example.core.controller.dto.MemberLoginRequestDto;
+import com.example.core.controller.dto.MemberRegisterRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,10 +30,11 @@ public class Member implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public static Member from(MemberLoginRequestDto memberLoginRequestDto, PasswordEncoder passwordEncoder) {
+
+    public static Member from(MemberRegisterRequestDto memberRegisterDto, PasswordEncoder passwordEncoder) {
         return Member.builder()
-                .id(memberLoginRequestDto.getMemberId())
-                .password(passwordEncoder.encode(memberLoginRequestDto.getPassword()))
+                .id(memberRegisterDto.getMemberId())
+                .password(passwordEncoder.encode(memberRegisterDto.getPassword()))
                 .role(Role.USER)
                 .build();
     }

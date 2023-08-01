@@ -1,6 +1,8 @@
 package com.example.core.config;
 
+import com.example.core.auth.CookieUtil;
 import com.example.core.auth.CustomAuthenticationProcessingFilter;
+import com.example.core.auth.JwtAccessDeninedHandler;
 import com.example.core.auth.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 //@PropertySource(value = "application.yml")
 public class SecurityConfig {
-
+    private final JwtAccessDeninedHandler jwtAccessDeninedHandler;
     private final JwtTokenProvider jwtTokenProvider;
 
 
@@ -27,21 +29,32 @@ public class SecurityConfig {
         http.authorizeHttpRequests()
                 .antMatchers("/poi/**").hasRole("user")
                 .antMatchers("/admin/**").hasRole("admin")
+                .antMatchers("/route/list/**").hasAnyRole( "user")
                 .antMatchers("/auth/**").permitAll()
+                .antMatchers("/home/**").permitAll()
                 .antMatchers("/docs/**").permitAll()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin().disable()
-                .logout().disable()
                 .addFilterBefore(customAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.formLogin()
+                .disable()
+                .exceptionHandling()
+                .accessDeniedHandler(jwtAccessDeninedHandler);
 
+        http.logout()
+                .logoutUrl("/logout")
+                .logoutSuccessHandler(((request, response, authentication) -> {
+                    response.sendRedirect("/home");
+                }))
+                .deleteCookies("access_token", "refresh_token");
 
         return http.build();
     }
 
     @Bean
     CustomAuthenticationProcessingFilter customAuthenticationProcessingFilter() throws Exception {
-        return new CustomAuthenticationProcessingFilter(jwtTokenProvider);
+        CustomAuthenticationProcessingFilter customAuthenticationProcessingFilter = new CustomAuthenticationProcessingFilter(jwtTokenProvider);
+        return customAuthenticationProcessingFilter;
     }
 
     //Password Encoder Register

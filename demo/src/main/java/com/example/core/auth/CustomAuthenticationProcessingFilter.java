@@ -2,32 +2,27 @@ package com.example.core.auth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RequiredArgsConstructor
 @Slf4j
-public class CustomAuthenticationProcessingFilter extends GenericFilterBean {
+public class CustomAuthenticationProcessingFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
         log.info("doFilter");
-        String token = resolveToken((HttpServletRequest) request);
+        String token = resolveToken(request);
 
         // 2. validateToken 으로 토큰 유효성 검사
         if (token != null && jwtTokenProvider.validateToken(token)) {
@@ -35,21 +30,20 @@ public class CustomAuthenticationProcessingFilter extends GenericFilterBean {
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-        chain.doFilter(request, response);
-}
+        filterChain.doFilter(request, response);
 
-//    @Override
-//    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-//        String username = request.getParameter("username");
-//        String password = request.getParameter("password");
-//        return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(username,password));
-//    }
+    }
+
     private String resolveToken(HttpServletRequest request) {
         log.info("resolveTOken");
-        String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
+//        String bearerToken = request.getHeader("Authorization");
+//        Cookie bearerToken = CookieUtil.getCookie(request, "access_token");
+        String bearerToken = (String) request.getSession().getAttribute("access_token");
+        if (bearerToken != null) {
+            log.info("cookie value={}", bearerToken);
             return bearerToken.substring(7);
         }
         return null;
     }
+
 }

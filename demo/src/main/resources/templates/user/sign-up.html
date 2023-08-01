@@ -52,7 +52,7 @@
     })
 
 
-    const registerFunc = async (memberId,email,password) => {
+    const registerFunc = async (memberId, email, password) => {
         const res = fetch("http://localhost:8080/auth/signup", {
             method: "POST",
             headers: {
@@ -64,7 +64,7 @@
                 password
             })
         })
-        if(!res.ok) throw new Error("회원가입 실패")
+        if (!res.ok) throw new Error("회원가입 실패")
         return res.then(res => res.json());
     }
 

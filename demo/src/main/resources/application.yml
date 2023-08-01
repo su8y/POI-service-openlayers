@@ -1,12 +1,6 @@
 spring:
   thymeleaf:
     cache: false
-  devtools:
-    remote:
-      restart:
-        enabled: true
-    livereload:
-      enabled: true
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/project
@@ -20,6 +14,10 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     database-platform: org.hibernate.spatial.dialect.postgis.PostgisDialect
+#    open-in-view: false
+  redis:
+    port: 6397
+    host: localhost
 #mybatis:
 #  config-location: classpath:mapper/**/*.xml
 #  configuration:
@@ -30,3 +28,19 @@ mybatis:
 
 jwt:
   secret: YXNkZndlZmFzZGZhc2R2a25hd2V2aXVhc25sa3Zram5sYWR2
+---
+
+spring:
+  profiles:
+    active: dev
+  devtools:
+    remote:
+      restart:
+        enabled: true
+    livereload:
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/project
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver

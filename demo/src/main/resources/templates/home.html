@@ -17,7 +17,6 @@
 <body>
 <th:block th:replace="/fragment/nav.html :: my-navbar"></th:block>
 <div class="row">
-
     <div class="col-3 col-sm-3">
         <div class="align-items-start ">
             <div class="d-flex flex-column">
@@ -82,43 +81,31 @@
             <input class="col-3 form-control form-control-sm w-25" type="text" placeholder="검색어 .. "/>
             <div class="col d-flex flex-column align-items-center">
                 <div class="">1차 분류</div>
-                <select class="form-select rounded-5" aria-label="Default select example">
+                <select id="cate-1" class="form-select rounded-5" aria-label="Default select example">
                     <option selected>None</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
                 </select>
             </div>
             <div class="col d-flex flex-column align-items-center">
-                <div class="">2차 분류</div>
-                <select class="form-select rounded-5 " aria-label="Default select example">
+                <div class="" id="">2차 분류</div>
+                <select id="cate-2" class="form-select rounded-5 " aria-label="Default select example">
                     <option selected>None</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
                 </select>
             </div>
             <div class="col d-flex flex-column align-items-center">
                 <div class="">3차 분류</div>
-                <select class="form-select rounded-5 " aria-label="Default select example">
+                <select id="cate-3" class="form-select rounded-5 " aria-label="Default select example">
                     <option selected>None</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
                 </select>
             </div>
             <div class="col d-flex flex-column align-items-center">
                 <div class="">4차 분류</div>
-                <select class="form-select rounded-5 " aria-label="Default select example">
+                <select id="cate-4" class="form-select rounded-5 " aria-label="Default select example">
                     <option selected>None</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
                 </select>
             </div>
             <div class="col d-flex flex-column align-items-center">
                 <div class="">5차 분류</div>
-                <select class="form-select rounded-5 " aria-label="Default select example">
+                <select id="cate-5" class="form-select rounded-5 " aria-label="Default select example">
                     <option selected>None</option>
                     <option value="1">One</option>
                     <option value="2">Two</option>
@@ -133,6 +120,46 @@
 </div>
 
 
+<script type="text/javascript" th:src="@{/js/api/categoryApi.js}"></script>
+<script type="text/javascript">
+    let cate1Select = document.querySelector("#cate-1");
+    let cate2Select = document.querySelector("#cate-2");
+    let cate3Select = document.querySelector("#cate-3");
+    let cate4Select = document.querySelector("#cate-4");
+    fetchCategory().then(res => {
+        res.forEach(cate => {
+            let option = document.createElement("option");
+            option.setAttribute("value", cate.largeClassId);
+            option.appendChild(document.createTextNode(cate.largeClassName));
+            console.log(option)
+            cate1Select.appendChild(option)
+        })
+    })
+
+    cate1Select.addEventListener("change", (event) => {
+        let cate1SelectValue = cate1Select.value;
+        let cate2SelectValue = cate2Select.value;
+        let cate3SelectValue = cate3Select.value;
+        let cate4SelectValue = cate4Select.value;
+        fetchCategorys({
+            largeClassId: cate1SelectValue,
+            middleClassId: cate2SelectValue,
+            smallClassId: cate3SelectValue,
+            detailClassId: cate4SelectValue
+        }).then(
+            res => {
+                res.forEach(cate => {
+                    let option = document.createElement("option");
+                    option.setAttribute("value", cate.middleClassId);
+                    option.appendChild(document.createTextNode(cate.middleClassName));
+                    console.log(option)
+                    cate2Select.appendChild(option)
+                })
+            }
+        )
+    })
+
+</script>
 <script>
     var layers = [
         new ol.layer.Tile({

@@ -1,8 +1,7 @@
 package com.example.core.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +11,9 @@ import java.util.List;
 @Table(name = "category")
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Category {
     @Id
     @Column(name = "category_code")
@@ -37,6 +39,7 @@ public class Category {
     @Column(name = "bclasdc")
     private String bottomClassName;
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "category")
+    @JsonIgnore
     @Builder.Default
     private List<POI> poiList = new ArrayList<POI>();
 

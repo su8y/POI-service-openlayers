@@ -1,6 +1,7 @@
 package com.example.core.auth;
 
 import com.example.core.model.common.TokenInfo;
+import com.example.core.model.redis.RefreshToken;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -13,12 +14,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.security.KeyStore;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -26,6 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 public class JwtTokenProvider {
+    public static final String REFRESH_TOKEN_NAME = "refresh_token";
     private final Key key;
 
     public JwtTokenProvider(@Value("${jwt.secret}") String secretkey) {
@@ -34,7 +33,6 @@ public class JwtTokenProvider {
     }
 
     public TokenInfo generateToken(Authentication authentication) {
-        log.info("generateToken" + authentication.getName());
         // 권한 가져오기
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -57,7 +55,7 @@ public class JwtTokenProvider {
                 .compact();
 
         return TokenInfo.builder()
-                .grantType("Bearer")
+                .grantType("Bearer ")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
@@ -66,14 +64,12 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String accessToken) {
         // 토큰 복호화
-        log.info("getAuthentication");
         Claims claims = parseClaims(accessToken);
 
         if (claims.get("auth") == null) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
 
-        log.info("after parseclaims");
         // 클레임에서 권한 정보 가져오기
         Collection<? extends GrantedAuthority> authorities =
                 Arrays.stream(claims.get("auth").toString().split(","))
@@ -91,24 +87,22 @@ public class JwtTokenProvider {
 
     // 토큰 정보를 검증하는 메서드
     public boolean validateToken(String token) {
-        log.info("validateToken");
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT Token", e);
+            log.error("Invalid JWT Token", e);
         } catch (ExpiredJwtException e) {
-            log.info("Expired JWT Token", e);
+            throw new ExpiredJwtException(null, null, e.getMessage());
         } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
+            log.error("Unsupported JWT Token", e);
         } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.", e);
+            log.error("JWT claims string is empty.", e);
         }
         return false;
     }
 
     private Claims parseClaims(String accessToken) {
-        log.info("parseClaims");
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         } catch (ExpiredJwtException e) {

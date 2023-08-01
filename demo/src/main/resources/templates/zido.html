@@ -16,125 +16,122 @@
 </head>
 <body>
 <th:block th:replace="/fragment/nav.html :: my-navbar"></th:block>
-<div class="container">
-    <div class="row gap-3">
-        <input class="col-3 form-control form-control-sm w-25" type="text" placeholder="검색어 .. "/>
-        <div class="col d-flex flex-column align-items-center">
-            <div class="">1차 분류</div>
-            <select class="form-select rounded-5" aria-label="Default select example">
-                <option selected>None</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
-        <div class="col d-flex flex-column align-items-center">
-            <div class="">2차 분류</div>
-            <select class="form-select rounded-5 " aria-label="Default select example">
-                <option selected>None</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
-        <div class="col d-flex flex-column align-items-center">
-            <div class="">3차 분류</div>
-            <select class="form-select rounded-5 " aria-label="Default select example">
-                <option selected>None</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
-        <div class="col d-flex flex-column align-items-center">
-            <div class="">4차 분류</div>
-            <select class="form-select rounded-5 " aria-label="Default select example">
-                <option selected>None</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
-        <div class="col d-flex flex-column align-items-center">
-            <div class="">5차 분류</div>
-            <select class="form-select rounded-5 " aria-label="Default select example">
-                <option selected>None</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
+<div class="row">
 
-    </div>
-    <div class="row">
-        <div id="map" class="map"></div>
-    </div>
-</div>
-
-<!--slider -->
-<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
-        aria-controls="offcanvasScrolling">Enable body scrolling
-</button>
-
-<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
-     id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
-    <div class="offcanvas-header align-items-start ">
-        <div class="d-flex flex-column">
-            <h5 class="offcanvas-title" id="offcanvasScrollingLabel">검색어 : 0000</h5>
-            <p>산업>서비스산업>기타서비스 검색결과</p>
+    <div class="col-3 col-sm-3">
+        <div class="align-items-start ">
+            <div class="d-flex flex-column">
+                <h5 class="" id="offcanvasScrollingLabel">검색어 : 0000</h5>
+                <p>산업>서비스산업>기타서비스 검색결과</p>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="" aria-label="Close"></button>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body d-flex flex-column gap-3"
-         style="background-color:#dddddd;">
-        <div class="d-flex flex-column align-items-center bg-white">
-            <img src="../static/images/img.png" th:src="@{/images/img.png}" alt="순대국이미지"
-                 style="
+        <div class="d-flex flex-column gap-3"
+             style="background-color:#dddddd;">
+            <div class="d-flex flex-column align-items-center bg-white">
+                <img src="../static/images/img.png" th:src="@{/images/img.png}" alt="순대국이미지"
+                     style="
                      width: 100%;
                      height: 121px;
                      z-index: 8;
                 "
-            >
-            <div class="rounded-5 d-flex w-75 position-relative px-5"
-                 style="
+                >
+                <div class="rounded-5 d-flex w-75 position-relative px-5"
+                     style="
             background-color: #eeeeee;
             height: 50px;
             box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
             top:-25px;
             z-index: 9;
             ">
-                <div>
-                    00용역
-                    <p>111-111-111</p>
+                    <div>
+                        00용역
+                        <p>111-111-111</p>
+                    </div>
+                    <div>인력공급</div>
                 </div>
-                <div>인력공급</div>
-            </div>
-            <div>산업/서비스산업/기타서비스</div>
-            <span>
+                <div>산업/서비스산업/기타서비스</div>
+                <span>
                 <p>asdfasdfasdf</p>
                 <p>asdfasdfasdf</p>
             </span>
-            <div>
-                <div class="btn">경로 찾기</div>
-                <div class="btn">로드뷰</div>
+                <div>
+                    <div class="btn">경로 찾기</div>
+                    <div class="btn">로드뷰</div>
+                </div>
+
+            </div>
+            <div class="d-flex align-items-center bg-white">
+                <div class="">00순대국</div>
+                <div class="text-black-50">
+                    <p>
+                        산업/서비스산업/기타서비스
+                    </p>
+                    <p>
+                        산업/서비스산업/기타서비스
+                    </p>
+                </div>
+
             </div>
 
         </div>
-        <div class="d-flex align-items-center bg-white">
-            <div class="">00순대국</div>
-            <div class="text-black-50">
-                <p>
-                    산업/서비스산업/기타서비스
-                </p>
-                <p>
-                    산업/서비스산업/기타서비스
-                </p>
-            </div>
-
-        </div>
-
     </div>
+    <div class="col gap-3">
+        <div class="row">
+
+            <input class="col-3 form-control form-control-sm w-25" type="text" placeholder="검색어 .. "/>
+            <div class="col d-flex flex-column align-items-center">
+                <div class="">1차 분류</div>
+                <select class="form-select rounded-5" aria-label="Default select example">
+                    <option selected>None</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="col d-flex flex-column align-items-center">
+                <div class="">2차 분류</div>
+                <select class="form-select rounded-5 " aria-label="Default select example">
+                    <option selected>None</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="col d-flex flex-column align-items-center">
+                <div class="">3차 분류</div>
+                <select class="form-select rounded-5 " aria-label="Default select example">
+                    <option selected>None</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="col d-flex flex-column align-items-center">
+                <div class="">4차 분류</div>
+                <select class="form-select rounded-5 " aria-label="Default select example">
+                    <option selected>None</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="col d-flex flex-column align-items-center">
+                <div class="">5차 분류</div>
+                <select class="form-select rounded-5 " aria-label="Default select example">
+                    <option selected>None</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div id="map" class="map"></div>
+        </div>
+    </div>
+
+    <!--slider -->
 </div>
+
 
 <script>
     var layers = [

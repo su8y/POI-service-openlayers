@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -20,7 +22,8 @@
                 <a class="nav-link active" aria-current="page" href="/home" th:href="@{/home}">지도</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">경로</a>
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                   aria-expanded="false">경로</a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="/route/find" th:href="@{/route/find}">경로찾기</a></li>
                     <li><a class="dropdown-item" href="/route/list" th:href="@{/route/list}">저장한 경로</a></li>
@@ -32,7 +35,8 @@
                 </ul>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">POI</a>
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                   aria-expanded="false">POI</a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="/poi/save">POI 저장</a></li>
                     <li><a class="dropdown-item" href="/poi/manage">POI 관리</a></li>
@@ -45,24 +49,30 @@
             </li>
         </ul>
         <ul class="d-flex gap-2">
-            <li>
-                <a href="/user/sign-in" th:href="@{/signIn}" class="btn btn-primary">로그인</a>
-            </li>
-            <li>
-                <a href="/user/sign-up" th:href="@{/signUp}" class="btn btn-secondary">회원가입</a>
-            </li>
+
+            <div th:unless="${session.get('access_token')}">
+                <li>
+                    <a href="/user/sign-in" th:href="@{/signIn}" class="btn btn-primary">로그인</a>
+                </li>
+                <li>
+                    <a href="/user/sign-up" th:href="@{/signUp}" class="btn btn-secondary">회원가입</a>
+                </li>
+                <th:block sec:authorize="hasRole('ROLE_user')">인증된사용자</th:block>
+            </div>
+            <div th:if="${session.get('access_token')}">
+                <li>
+                    <a href="/user/sign-up" th:href="@{/logout}" class="btn btn-secondary">로그아웃</a>
+                </li>
+                <th:block sec:authorize="hasRole('ROLE_user')">인증된사용자</th:block>
+                <th:block sec:authorize="isAuthenticated()">인증된사용자</th:block>
+            </div>
         </ul>
     </nav>
 </div>
-<script>
-    $(function (){
-        $(".nav-item > .active").css("color", "red");
-        $(' .nav-link ').on('click',function(){
-            $(".nav-link").removeClass("active");
-            $(this).addClass("active");
-        });
+<script type="text/javascript">
+    // console.log('hi')
 
-    });
+    console.log(localStorage['access-token'])
 </script>
 
 </body>
