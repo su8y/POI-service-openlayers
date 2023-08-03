@@ -15,6 +15,7 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     database-platform: org.hibernate.spatial.dialect.postgis.PostgisDialect
 #    open-in-view: false
+
   redis:
     port: 6397
     host: localhost
@@ -25,7 +26,6 @@ mybatis:
   mapper-locations: classpath:mapper/**/*.xml
   type-aliases-package: com.example.core.model
 #    map-underscore-to-camel-case: true
-
 jwt:
   secret: YXNkZndlZmFzZGZhc2R2a25hd2V2aXVhc25sa3Zram5sYWR2
 ---
@@ -33,12 +33,12 @@ jwt:
 spring:
   profiles:
     active: dev
-  devtools:
-    remote:
-      restart:
-        enabled: true
-    livereload:
-      enabled: true
+#  devtools:
+#    remote:
+#      restart:
+#        enabled: true
+#    livereload:
+#      enabled: false
   datasource:
     url: jdbc:postgresql://localhost:5432/project
     username: postgres

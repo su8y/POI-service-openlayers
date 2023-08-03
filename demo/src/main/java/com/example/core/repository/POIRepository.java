@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface POIRepository extends JpaRepository<POI,Long>,CustomPOIRepository {
     List<POI> findByName(String name);
+
 }

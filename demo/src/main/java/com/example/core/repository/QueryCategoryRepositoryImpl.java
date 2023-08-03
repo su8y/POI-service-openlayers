@@ -1,17 +1,13 @@
 package com.example.core.repository;
 
 import com.example.core.model.Category;
-import com.example.core.model.QCategory;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
 
 import static com.example.core.model.QCategory.category;
@@ -22,18 +18,21 @@ import static com.example.core.model.QCategory.category;
 public class QueryCategoryRepositoryImpl implements QueryCategoryRepository {
     private final JPAQueryFactory queryFactory;
 
-    public List<Category> findCategoryByCurrentValue() {
-        JPAQuery<?> from = queryFactory.from(category);
-        JPAQuery<Category> where = from.select(Projections.fields(Category.class, category.largeClassId, category.largeClassName))
-                .distinct();
 
-        return where.fetch();
-    }
-
-    public List<Category> findCategoryByCurrentValue(Category currentValue) {
+    public List<?> findCategoryByCurrentValue(Category currentValue) {
         JPAQuery<?> from = queryFactory.from(category);
-        JPAQuery<Category> where = from.select(category)
-                .where(
+        if (currentValue.getLargeClassId() == null) {
+            from = from.select(Projections.fields(Category.class,category.largeClassId, category.largeClassName));
+        } else if (currentValue.getMiddleClassId() == null) {
+            from = from.select(Projections.fields(Category.class,category.middleClassId, category.middleClassName));
+        } else if (currentValue.getSmallClassId() == null) {
+            from = from.select(Projections.fields(Category.class,category.smallClassId, category.smallClassName));
+        } else if (currentValue.getDetailClassId() == null) {
+            from = from.select(Projections.fields(Category.class,category.detailClassId, category.detailClassName));
+        } else if (currentValue.getBottomClassId() == null) {
+            from = from.select(Projections.fields(Category.class,category.bottomClassId, category.bottomClassName));
+        }
+        JPAQuery<?> where = from.where(
                         isEqualsLargeClass(currentValue.getLargeClassId()),
                         isEqualsMiddleClass(currentValue.getMiddleClassId()),
                         isEqualsSmallClass(currentValue.getSmallClassId()),

@@ -29,7 +29,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests()
                 .antMatchers("/poi/**").hasRole("user")
                 .antMatchers("/admin/**").hasRole("admin")
-                .antMatchers("/route/list/**").hasAnyRole( "user")
+                .antMatchers("/route/list/**").hasAnyRole("user")
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/home/**").permitAll()
                 .antMatchers("/docs/**").permitAll()

@@ -7,10 +7,18 @@ async function fetchCategory() {
 
 async function fetchCategorys(currentValue) {
     console.log(currentValue)
-    const res = await fetch("http://localhost:8080/category?"
-        + new URLSearchParams({
-            largeClassId: currentValue.largeClassId
-        })
+    let params = new URLSearchParams();
+    if (currentValue.largeClassId > 0)
+        params.append("largeClassId", currentValue.largeClassId.toString());
+    if (currentValue.middleClassId > 0)
+        params.append("middleClassId", currentValue.middleClassId.toString());
+    if (currentValue.smallClassId > 0)
+        params.append("smallClassId", currentValue.smallClassId.toString());
+    if (currentValue.detailClassId > 0)
+        params.append("detailClassId", currentValue.detailClassId.toString());
+
+    const res = await fetch("http://localhost:8080/category?" +
+        params
     )
     return res.json();
 }

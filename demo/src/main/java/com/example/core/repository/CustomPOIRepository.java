@@ -14,4 +14,5 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public interface CustomPOIRepository {
+    Page<POI> findBySearchParam(POISearchParam searchParam);
 }

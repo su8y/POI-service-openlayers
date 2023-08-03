@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
           th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"
     />
-    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
     <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
     <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
     <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
@@ -16,10 +15,10 @@
 <body>
 <div th:fragment="my-navbar">
     <nav class="navbar px-2">
-        <a href="/home" th:href="@{/home}" class="navbar-brand">Postgis Project</a>
+        <a href="/home" th:href="@{/}" class="navbar-brand">Postgis Project</a>
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/home" th:href="@{/home}">지도</a>
+                <a class="nav-link active" aria-current="page" href="/" th:href="@{/home}">지도</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
@@ -48,23 +47,21 @@
                 </ul>
             </li>
         </ul>
-        <ul class="d-flex gap-2">
+        <ul class="">
 
-            <div th:unless="${session.get('access_token')}">
+            <div th:unless="${session.get('access_token')}" class="d-flex gap-2">
                 <li>
                     <a href="/user/sign-in" th:href="@{/signIn}" class="btn btn-primary">로그인</a>
                 </li>
                 <li>
                     <a href="/user/sign-up" th:href="@{/signUp}" class="btn btn-secondary">회원가입</a>
                 </li>
-                <th:block sec:authorize="hasRole('ROLE_user')">인증된사용자</th:block>
             </div>
             <div th:if="${session.get('access_token')}">
                 <li>
                     <a href="/user/sign-up" th:href="@{/logout}" class="btn btn-secondary">로그아웃</a>
                 </li>
                 <th:block sec:authorize="hasRole('ROLE_user')">인증된사용자</th:block>
-                <th:block sec:authorize="isAuthenticated()">인증된사용자</th:block>
             </div>
         </ul>
     </nav>

@@ -10,6 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,4 +51,8 @@ public class POIService {
         poiRepository.delete(referenceById);
     }
 
+    public Page<POI> findByCurrentPosition(Polygon polygon, Category currentCategoryValue, Pageable page) {
+//        poiRepository.findBySearchParam(polygon, currentCategoryValue, page);
+        return null;
+    }
 }

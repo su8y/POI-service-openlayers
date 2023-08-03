@@ -4,15 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>zido</title>
-    <!--    <link rel="stylesheet" th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"-->
-    <!--          href="../static/node_modules/bootstrap/dist/css/bootstrap.min.css"/>-->
-    <link rel="stylesheet" href="../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
-          th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"
-    />
-    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
-    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
-    <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
-    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+    <th:block th:insert="/fragment/header.html :: my-header"></th:block>
 </head>
 <body>
 <th:block th:replace="/fragment/nav.html :: my-navbar"></th:block>
@@ -107,36 +99,107 @@
                 <div class="">5차 분류</div>
                 <select id="cate-5" class="form-select rounded-5 " aria-label="Default select example">
                     <option selected>None</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
                 </select>
             </div>
             <div id="map" class="map"></div>
         </div>
     </div>
 
+    <button id="current-position-research-btn" type="button">재 검색</button>
     <!--slider -->
 </div>
 
-
+<script th:src="@{/js/api/poi.js}"></script>
+<script type="module" th:src="@{/js/map.js}"></script>
 <script type="text/javascript" th:src="@{/js/api/categoryApi.js}"></script>
 <script type="text/javascript">
     let cate1Select = document.querySelector("#cate-1");
     let cate2Select = document.querySelector("#cate-2");
     let cate3Select = document.querySelector("#cate-3");
     let cate4Select = document.querySelector("#cate-4");
+    let cate5Select = document.querySelector("#cate-5");
+    const defaultOptionNode = '<option selected>none</option>';
+
     fetchCategory().then(res => {
         res.forEach(cate => {
             let option = document.createElement("option");
             option.setAttribute("value", cate.largeClassId);
             option.appendChild(document.createTextNode(cate.largeClassName));
-            console.log(option)
             cate1Select.appendChild(option)
         })
     })
 
     cate1Select.addEventListener("change", (event) => {
+        let cate1SelectValue = cate1Select.value;
+        fetchCategorys({
+            largeClassId: cate1SelectValue,
+        }).then(
+            res => {
+                cate2Select.innerHTML = defaultOptionNode;
+                cate3Select.innerHTML = defaultOptionNode;
+                cate4Select.innerHTML = defaultOptionNode;
+                cate5Select.innerHTML = defaultOptionNode;
+
+                res.forEach(cate => {
+                    if (cate.middleClassId != 0) {
+
+                        let option = document.createElement("option");
+                        option.setAttribute("value", cate.middleClassId);
+                        option.appendChild(document.createTextNode(cate.middleClassName));
+                        cate2Select.appendChild(option)
+                    }
+                })
+            }
+        )
+    })
+    cate2Select.addEventListener("change", (event) => {
+        let cate1SelectValue = cate1Select.value;
+        let cate2SelectValue = cate2Select.value;
+        fetchCategorys({
+            largeClassId: cate1SelectValue,
+            middleClassId: cate2SelectValue,
+        }).then(
+            res => {
+                cate3Select.innerHTML = defaultOptionNode;
+                cate4Select.innerHTML = defaultOptionNode;
+                cate5Select.innerHTML = defaultOptionNode;
+                res.forEach(cate => {
+                    if (cate.smallClassId != 0) {
+
+                        let option = document.createElement("option");
+                        option.setAttribute("value", cate.smallClassId);
+                        option.appendChild(document.createTextNode(cate.smallClassName));
+                        cate3Select.appendChild(option)
+                    }
+                })
+            }
+        )
+    })
+    cate3Select.addEventListener("change", (event) => {
+        let cate1SelectValue = cate1Select.value;
+        let cate2SelectValue = cate2Select.value;
+        let cate3SelectValue = cate3Select.value;
+        fetchCategorys({
+            largeClassId: cate1SelectValue,
+            middleClassId: cate2SelectValue,
+            smallClassId: cate3SelectValue,
+        }).then(
+            res => {
+                cate4Select.innerHTML = defaultOptionNode;
+                cate5Select.innerHTML = defaultOptionNode;
+                res.forEach(cate => {
+                    if (cate.detailClassId != 0) {
+
+                        let option = document.createElement("option");
+                        option.setAttribute("value", cate.detailClassId);
+                        option.appendChild(document.createTextNode(cate.detailClassName));
+                        cate4Select.appendChild(option)
+                    }
+                })
+            }
+        )
+    })
+    cate4Select.addEventListener("change", (event) => {
         let cate1SelectValue = cate1Select.value;
         let cate2SelectValue = cate2Select.value;
         let cate3SelectValue = cate3Select.value;
@@ -148,50 +211,19 @@
             detailClassId: cate4SelectValue
         }).then(
             res => {
+                cate5Select.innerHTML = defaultOptionNode;
                 res.forEach(cate => {
-                    let option = document.createElement("option");
-                    option.setAttribute("value", cate.middleClassId);
-                    option.appendChild(document.createTextNode(cate.middleClassName));
-                    console.log(option)
-                    cate2Select.appendChild(option)
+                    if (cate.bottomClassId != 0) {
+
+                        let option = document.createElement("option");
+                        option.setAttribute("value", cate.bottomClassId);
+                        option.appendChild(document.createTextNode(cate.bottomClassName));
+                        cate6Select.appendChild(option)
+                    }
                 })
             }
         )
     })
-
 </script>
-<script>
-    var layers = [
-        new ol.layer.Tile({
-            source: new ol.source.OSM()
-        }),
-        // new ol.layer.Tile({
-        //     extent: [-13884991, 2870341, -7455066, 6338219],
-        //     source: new ol.source.TileWMS({
-        //         url: 'https://ahocevar.com/geoserver/wms',
-        //         params: {'LAYERS': 'topp:states', 'TILED': true},
-        //         serverType: 'geoserver',
-        //         // Countries have transparency, so do not fade tiles:
-        //         transition: 0
-        //     })
-        // })
-    ];
-    var map = new ol.Map({
-        layers: layers,
-        target: 'map',
-        view: new ol.View({
-            center: [-10997148, 4569099],
-            zoom: 4
-        })
-    });
-</script>
-<script src="../static/node_modules/jquery/dist/jquery.min.js"
-        th:src="@{/node_modules/jquery/dist/jquery.min.js}"></script>
-<script src="../static/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-        th:src="@{/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js}"
-></script>
-<script src="../static/node_modules/popper.js/dist/umd/popper.min.js"
-        th:src="@{/node_modules/popper.js/dist/umd/popper.min.js}"
-></script>
 </body>
 </html>
