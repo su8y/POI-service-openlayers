@@ -1,7 +1,6 @@
 package com.example.core.auth;
 
 import com.example.core.model.common.TokenInfo;
-import com.example.core.model.redis.RefreshToken;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

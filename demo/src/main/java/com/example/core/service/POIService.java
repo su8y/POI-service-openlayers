@@ -28,14 +28,12 @@ public class POIService {
     private final POIMapper poiMapper;
     private final CategoryRepository categoryRepository;
     private final GeometryFactory geometryFactory;
-
     public void createPOI(POI poi, Integer categoryCode) {
         Category proxyCategory = categoryRepository.getReferenceById(categoryCode);
         poi.setCategory(proxyCategory);
         Point point = geometryFactory.createPoint(new Coordinate(poi.getLon(), poi.getLat()));
         poi.setCoordinates(point);
         poiRepository.save(poi);
-
     }
 
     public List<POI> findByName(String name) {

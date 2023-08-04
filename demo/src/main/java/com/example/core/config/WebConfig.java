@@ -1,6 +1,9 @@
 package com.example.core.config;
 
-import com.example.core.util.PolygonArgumentResolver;
+import com.example.core.poi.util.POIMethodArgumentsResolver;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -10,6 +13,13 @@ import java.util.List;
 @Configuration
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
+    //    @Bean
+//    public ObjectMapper objectMapper(){
+//        return new ObjectMapper();
+//    }
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         WebMvcConfigurer.super.addViewControllers(registry);
@@ -32,7 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         WebMvcConfigurer.super.addArgumentResolvers(resolvers);
-        resolvers.add(new PolygonArgumentResolver());
-
+        resolvers.add(new POIMethodArgumentsResolver(objectMapper));
     }
+
 }

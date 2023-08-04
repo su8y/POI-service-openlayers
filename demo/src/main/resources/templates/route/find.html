@@ -5,12 +5,15 @@
     <title>경로찾기</title>
     <th:block th:insert="/fragment/header.html :: my-header"/>
     <link rel="stylesheet" href="../../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
-          th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"
+          th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"/>
 </head>
 <body>
-<th:block th:insert="/fragment/nav.html :: my-navbar"/>
-<div class="row vh-100 ">
-    <div class="col-sm-3 container route-list" >
+<th:block th:replace="/fragment/nav.html :: my-navbar"/>
+
+<div class="d-flex my-container ">
+    <div class="col-sm-3 container route-list">
+        <!--        <th:block th:text="${#request.getRequestURI()}"></th:block>-->
+        <!--        <th:block th:text="${param.query}"></th:block>-->
         <button class="btn text-decoration-underline">경유지 추가하기</button>
         <div class="row">
             <label for="start-point">출발지</label>
@@ -29,7 +32,7 @@
             <img class="route-list-img"
                  src="../static/images/img.png" th:src="@{/images/img.png}" alt="순대국이미지">
             <div class="rounded-5 d-flex w-75 position-relative px-5 route-item-title offcanvas-top flex-sm-row flex-column flex-md-row justify-content-between text-start "
-                 >
+            >
                 <div>
                     <div class="d-block h5 ">0asdfasdfasd</div>
                     <div class="d-block h5 ">-> 도착지</div>
@@ -39,11 +42,11 @@
                 </div>
             </div>
             <div class="w-100 px-2 py-1">
-                <div >00번 타고</div>
-                <div >00번 타고</div>
-                <div >00번 타고</div>
-                <div >00번 타고</div>
-                <div >00번 타고</div>
+                <div>00번 타고</div>
+                <div>00번 타고</div>
+                <div>00번 타고</div>
+                <div>00번 타고</div>
+                <div>00번 타고</div>
                 <div class="text-end fs-0">택시비120원</div>
                 <div class="text-end">택시비120원</div>
             </div>
@@ -72,7 +75,12 @@
             <div class="w-100 fs-4 text-center">43분 43km</div>
         </div>
     </div>
-    <div id="map" class="col"></div>
+    <div class="col my-content">
+        <th:block th:replace="/fragment/search-option-bar.html :: my-searh-option "></th:block>
+        <div id="map" class="col">
+            <button type="button" class="research-btn">재검색</button>
+        </div>
+    </div>
 </div>
 <script>
     var layers = [

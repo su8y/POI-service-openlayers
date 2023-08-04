@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="row" th:fragment="my-searh-option">
+    <input class="col-3 form-control form-control-sm w-25" type="text" placeholder="검색어 .. "/>
+    <div class="col d-flex flex-column align-items-center">
+        <div class="">1차 분류</div>
+        <select id="cate-1" class="form-select rounded-5" aria-label="Default select example">
+            <option selected>None</option>
+        </select>
+    </div>
+    <div class="col d-flex flex-column align-items-center">
+        <div class="" id="">2차 분류</div>
+        <select id="cate-2" class="form-select rounded-5 " aria-label="Default select example">
+            <option selected>None</option>
+        </select>
+    </div>
+    <div class="col d-flex flex-column align-items-center">
+        <div class="">3차 분류</div>
+        <select id="cate-3" class="form-select rounded-5 " aria-label="Default select example">
+            <option selected>None</option>
+        </select>
+    </div>
+    <div class="col d-flex flex-column align-items-center">
+        <div class="">4차 분류</div>
+        <select id="cate-4" class="form-select rounded-5 " aria-label="Default select example">
+            <option selected>None</option>
+        </select>
+    </div>
+    <div class="col d-flex flex-column align-items-center">
+        <div class="">5차 분류</div>
+        <select id="cate-5" class="form-select rounded-5 " aria-label="Default select example">
+            <option selected>None</option>
+        </select>
+    </div>
+</div>
+
+</body>
+</html>

@@ -13,63 +13,79 @@
     <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
-<div th:fragment="my-navbar">
-    <nav class="navbar px-2">
-        <a href="/home" th:href="@{/}" class="navbar-brand">Postgis Project</a>
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/" th:href="@{/home}">지도</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                   aria-expanded="false">경로</a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/route/find" th:href="@{/route/find}">경로찾기</a></li>
-                    <li><a class="dropdown-item" href="/route/list" th:href="@{/route/list}">저장한 경로</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Separated link</a></li>
-                </ul>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                   aria-expanded="false">POI</a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="/poi/save">POI 저장</a></li>
-                    <li><a class="dropdown-item" href="/poi/manage">POI 관리</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Separated link</a></li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="">
+<nav class="navbar px-2" style="height: 66px" th:fragment="my-navbar">
+    <a href="/home" th:href="@{/}" class="navbar-brand">Postgis Project</a>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/" th:href="@{/}">지도</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+               aria-expanded="false">경로</a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/route/find" th:href="@{/route/find}">경로찾기</a></li>
+                <li><a class="dropdown-item" href="/route/list" th:href="@{/route/list}">저장한 경로</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Separated link</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+               aria-expanded="false">POI</a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/poi/save">POI 저장</a></li>
+                <li><a class="dropdown-item" href="/poi/manage">POI 관리</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Separated link</a></li>
+            </ul>
+        </li>
+        <script>
+            const navItem = document.querySelectorAll("a");
+            navItem.forEach((item) => {
+                item.addEventListener('click', () => {
+                    alert("hello")
+                })
+            })
 
-            <div th:unless="${session.get('access_token')}" class="d-flex gap-2">
-                <li>
-                    <a href="/user/sign-in" th:href="@{/signIn}" class="btn btn-primary">로그인</a>
-                </li>
-                <li>
-                    <a href="/user/sign-up" th:href="@{/signUp}" class="btn btn-secondary">회원가입</a>
-                </li>
-            </div>
-            <div th:if="${session.get('access_token')}">
-                <li>
-                    <a href="/user/sign-up" th:href="@{/logout}" class="btn btn-secondary">로그아웃</a>
-                </li>
-                <th:block sec:authorize="hasRole('ROLE_user')">인증된사용자</th:block>
-            </div>
-        </ul>
-    </nav>
-</div>
+        </script>
+    </ul>
+    <ul class="">
+
+        <div th:unless="${session.get('access_token')}" class="d-flex gap-2">
+            <li>
+                <a href="/user/sign-in" th:href="@{/signIn}" class="btn btn-primary">로그인</a>
+            </li>
+            <li>
+                <a href="/user/sign-up" th:href="@{/signUp}" class="btn btn-secondary">회원가입</a>
+            </li>
+        </div>
+        <div th:if="${session.get('access_token')}">
+            <li>
+                <a href="/user/sign-up" th:href="@{/logout}" class="btn btn-secondary">로그아웃</a>
+            </li>
+            <th:block sec:authorize="hasRole('ROLE_user')">인증된사용자</th:block>
+        </div>
+    </ul>
+</nav>
 <script type="text/javascript">
     // console.log('hi')
+    let navigationBar = document.querySelector("nav");
+    navigationBar.onclick = function (event) {
+        let navLink = event.target.closest('a.nav-link'); // (1)
 
-    console.log(localStorage['access-token'])
+        if (!navLink) return; // (2)
+
+        if (!navigationBarl.contains(navLink)) return; // (3)
+        navLink.classList.add("active")
+        alert("hello")
+    }
+
 </script>
 
 </body>

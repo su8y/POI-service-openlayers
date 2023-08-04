@@ -6,9 +6,11 @@
 
 html,
 body {
+    height: 100%;
+    width: 100%;
     margin: 0;
     padding: 0;
-    height: 100%;
+
 }
 
 ul, li {
@@ -21,12 +23,28 @@ a {
 }
 
 #map {
+    position:relative;
     z-index: 0;
     top: 0;
     bottom: 0;
-    width: 99%;
-    height: 80vh;
+    height: 97%;
 }
-fs-0{
-    font-size:12px;
+
+fs-0 {
+    font-size: 12px;
+}
+
+.my-slider {
+    max-width: 350px;
+}
+
+.my-content {
+    height: calc(100% - 66px);
+}
+
+.research-btn {
+    position: absolute;
+    z-index: 10;
+    top: 10px;
+    left: 50%;
 }

@@ -1,13 +1,14 @@
 package com.example.core.repository;
 
+import com.example.core.model.POI;
 import org.junit.jupiter.api.Test;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.LinearRing;
-import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.geom.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,40 @@ import static org.junit.jupiter.api.Assertions.*;
 class CustomPOIRepositoryImplTest {
     @Autowired
     POIRepository poiRepository;
+    @PersistenceContext
+    EntityManager entityManager;
+    @Autowired
+    GeometryFactory geometryFactory;
+    @Test
+    public void test1(){
+
+        Query nativeQuery = entityManager.createNativeQuery("select * from POI where ST_within(coordinates,  st_geomfromtext('POLYGON((" +
+                "126.72372610106636 36.976204779780645," +
+                "127.54426748290231 36.976204779780645," +
+                "127.54426748290231 37.865074892291375," +
+                "126.72372610106636 37.865074892291375," +
+                "126.72372610106636 36.976204779780645" +
+                "))',4326))")
+                .unwrap(org.hibernate.query.NativeQuery.class)
+                ;
+
+
+        Coordinate[] coordinates = new Coordinate[5];
+        coordinates[0] = new Coordinate(126.72372610106636d ,36.976204779780645d);
+        coordinates[1] = new Coordinate(127.54426748290231d, 36.976204779780645d);
+        coordinates[2] = new Coordinate(127.54426748290231, 37.865074892291375);
+        coordinates[3] = new Coordinate(126.72372610106636, 37.865074892291375);
+        coordinates[4] = new Coordinate(126.72372610106636, 36.976204779780645);
+        Polygon polygon = geometryFactory.createPolygon(coordinates);
+        polygon.setSRID(4326);
+        List<Geometry> event = entityManager.createQuery(
+                        "select e.coordinates " +
+                                "from POI e " +
+                                "where within(e.coordinates, :window) = true", Geometry.class)
+                .setParameter("window", polygon)
+                .getResultList();
+        System.out.println(event.size());
+    }
     @Test
     public void test(){
         POISearchParam poiSearchParam = new POISearchParam();
