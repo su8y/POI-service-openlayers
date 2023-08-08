@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-    <title>Title</title>
-    <head>
+<title>Title</title>
+<head>
     <th:block th:insert="/fragment/header.html :: my-header"></th:block>
     <link rel="stylesheet" href="../../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
           th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"
@@ -9,47 +9,11 @@
 </head>
 <body>
 <th:block th:replace="/fragment/nav.html :: my-navbar"></th:block>
-<div class="row justify-content-center">
-    <div class="col-3 col-md-2 d-flex flex-column align-items-center">
-        <div class="mb-3">1차 분류</div>
-        <select class="form-select rounded-5 " aria-label="Default select example">
-            <option selected>None</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-        </select>
-    </div>
-    <div class="col-3 col-md-2 d-flex flex-column align-items-center">
-        <div class="mb-3 ">1차 분류</div>
-        <select class="form-select rounded-5 " aria-label="Default select example">
-            <option selected>None</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-        </select>
-    </div>
-    <div class="col-3 col-md-2 d-flex flex-column align-items-center">
-        <div class="mb-3">1차 분류</div>
-        <select class="form-select rounded-5 " aria-label="Default select example">
-            <option selected>None</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-        </select>
-    </div>
-    <div class="col-3 col-md-2 d-flex flex-column align-items-center">
-        <div class="mb-3">1차 분류</div>
-        <select class="form-select rounded-5 " aria-label="Default select example">
-            <option selected>None</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-        </select>
-    </div>
-</div>
+<th:block th:replace="/fragment/search-option-bar.html :: my-searh-option"></th:block>
 <div class="container">
     <div class="row justify-content-between">
         <button class="btn btn-danger col-sm-1 col-1 text-nowrap">삭제</button>
+        <a th:href="@{/poi/save}" class="btn btn-info col-sm-1 col-1 text-nowrap">추가</a>
         <ul class="pagination col-3 col-sm-3 ">
             <li class="page-item">
                 <a href="#" class="page-link">
@@ -137,5 +101,7 @@
         </table>
     </div>
 </div>
+<script th:src="@{/js/api/categoryApi.js}"></script>
+<script th:src="@{/js/handle/category.js}"></script>
 </body>
 </html>
