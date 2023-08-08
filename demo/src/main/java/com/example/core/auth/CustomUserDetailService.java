@@ -1,8 +1,5 @@
 package com.example.core.auth;
 
-import com.example.core.model.Member;
-import com.example.core.model.Role;
-import com.example.core.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.User;
