@@ -44,7 +44,7 @@ public class SecurityConfig {
         http.logout()
                 .logoutUrl("/logout")
                 .logoutSuccessHandler(((request, response, authentication) -> {
-                    response.sendRedirect("/home");
+                    response.sendRedirect("/");
                 }))
                 .deleteCookies("access_token", "refresh_token");
 
