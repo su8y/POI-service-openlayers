@@ -1,7 +1,7 @@
 package com.example.core;
 
-import com.example.core.model.POI;
-import com.example.core.repository.POIMapper;
+import com.example.core.poi.dto.Poi;
+import com.example.core.poi.POIMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ class CoreApplicationTests {
 
     @Test
     void contextLoads() {
-        List<POI> books = poiRepository.selectAll();
+        List<Poi> books = poiRepository.selectAll();
         Assertions.assertThat(books).isNotEmpty();
     }
 

@@ -1,7 +1,5 @@
-package com.example.core.controller;
+package com.example.core.category;
 
-import com.example.core.model.Category;
-import com.example.core.repository.CategoryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

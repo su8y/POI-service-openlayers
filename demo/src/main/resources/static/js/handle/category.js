@@ -106,7 +106,7 @@ cate4Select.addEventListener("change", (event) => {
                     let option = document.createElement("option");
                     option.setAttribute("value", cate.bottomClassId);
                     option.appendChild(document.createTextNode(cate.bottomClassName));
-                    cate6Select.appendChild(option)
+                    cate5Select.appendChild(option)
                 }
             })
         }

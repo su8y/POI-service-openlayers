@@ -1,6 +1,7 @@
-package com.example.core.model;
+package com.example.core.route;
 
 
+import com.example.core.auth.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,12 +1,14 @@
 package com.example.core.config;
 
-import com.example.core.poi.util.POIMethodArgumentsResolver;
+import com.example.core.poi.util.GeomMethodArgumentsResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
@@ -19,6 +21,8 @@ public class WebConfig implements WebMvcConfigurer {
 //    }
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private GeomMethodArgumentsResolver geomMethodArgumentsResolver;
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -42,7 +46,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         WebMvcConfigurer.super.addArgumentResolvers(resolvers);
-        resolvers.add(new POIMethodArgumentsResolver(objectMapper));
+        resolvers.add(geomMethodArgumentsResolver);
     }
+
 
 }

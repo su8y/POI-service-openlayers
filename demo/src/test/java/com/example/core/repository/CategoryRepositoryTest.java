@@ -1,7 +1,8 @@
 package com.example.core.repository;
 
+import com.example.core.category.CategoryRepository;
 import com.example.core.config.TestQueryDslConfig;
-import com.example.core.model.Category;
+import com.example.core.category.Category;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

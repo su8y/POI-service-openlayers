@@ -1,6 +1,6 @@
 package com.example.core.config;
 
-import com.example.core.repository.QueryCategoryRepositoryImpl;
+import com.example.core.category.QueryCategoryRepositoryImpl;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;

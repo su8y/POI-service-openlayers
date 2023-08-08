@@ -1,24 +1,22 @@
-package com.example.core.controller;
+package com.example.core.category;
 
 import com.example.core.poi.POIController;
 import com.example.core.poi.dto.POIRequestDto;
-import com.example.core.model.Category;
-import com.example.core.poi.dto.POISearchDto;
-import com.example.core.poi.util.POIMethodArgumentsResolver;
-import com.example.core.service.POIService;
+import com.example.core.poi.util.GeomMethodArgumentsResolver;
+import com.example.core.poi.POIService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -30,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith({MockitoExtension.class})
-class POIControllerTest {
+class PoiControllerTest {
     private static MockMvc mvc;
     private static ObjectMapper objectMapper = new ObjectMapper();
     @InjectMocks
@@ -40,19 +38,20 @@ class POIControllerTest {
 
     @BeforeAll
     public static void setup() {
+        GeometryFactory geometryFactory = new GeometryFactory();
         mvc = MockMvcBuilders.standaloneSetup(new POIController(null))
-                .setCustomArgumentResolvers(new POIMethodArgumentsResolver(objectMapper))
+                .setCustomArgumentResolvers(new GeomMethodArgumentsResolver(geometryFactory))
                 .build();
     }
 
     @Test
     @DisplayName("POI 조회 파라미터 바인딩 테스트")
     public void findPoi() throws Exception {
-        POISearchDto searchDto = new POISearchDto();
-        searchDto.setInputText("hello");
-        searchDto.setLeftTop(new Double[]{222.22222, 11111.111111});
+
         mvc.perform(get("/pois")
-                        .param("searchDto", objectMapper.writeValueAsString(searchDto))
+                        .param("inputText", "hello Wolrd")
+                        .param("largeClassId", "1")
+                        .param("polygon", "35.2231", "123.3231","33.2231", "123.3231","35.2231", "122.3231","35.2231", "123.3231")
                 )
                 .andDo(print());
 
@@ -61,16 +60,16 @@ class POIControllerTest {
     @Test
     @DisplayName("Object Mapper Test")
     public void om() throws JsonProcessingException {
-        POISearchDto searchDto = new POISearchDto();
-        searchDto.setInputText("hello");
-        searchDto.setLeftTop(new Double[]{222.22222, 11111.111111});
-
-        String s = objectMapper.writeValueAsString(searchDto);
-        System.out.println("s = " + s);
-
-        POISearchDto searchDto1 = objectMapper.readValue(s, POISearchDto.class);
-        System.out.printf("%s", searchDto1.getInputText());
-        System.out.println("searchDto1.getLeftTop() = " + searchDto1.getLeftTop()[0]);
+//        POISearchDto searchDto = new POISearchDto();
+//        searchDto.setInputText("hello");
+//        searchDto.setLeftTop(new Double[]{222.22222, 11111.111111});
+//
+//        String s = objectMapper.writeValueAsString(searchDto);
+//        System.out.println("s = " + s);
+//
+//        POISearchDto searchDto1 = objectMapper.readValue(s, POISearchDto.class);
+//        System.out.printf("%s", searchDto1.getInputText());
+//        System.out.println("searchDto1.getLeftTop() = " + searchDto1.getLeftTop()[0]);
 
     }
 

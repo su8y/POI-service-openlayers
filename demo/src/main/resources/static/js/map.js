@@ -51,62 +51,19 @@ var map = new ol.Map({
         zoom: 18
     })
 });
-map
-    .on(
-        'click'
-        , (
-            evt
-        ) => {
-            var
-                size = map.getSize();
-            var
-                extent = map.getView().calculateExtent(size);
-            var
-                bottomLeft = ol.proj.toLonLat(ol.extent.getBottomLeft(extent));
-            var
-                topRight = ol.proj.toLonLat(ol.extent.getTopRight(extent));
-            var
-                bottomRight = ol.proj.toLonLat(ol.extent.getBottomRight(extent));
-            var
-                topLeft = ol.proj.toLonLat(ol.extent.getTopLeft(extent));
+map.on('click', (evt) => {
+        var feature = map.forEachFeatureAtPixel(evt.pixel,
+            function (feature) {
+                return feature;
+            });
 
-            // get full current screen shape
-            var
-                box = new ol.Feature(new ol.geom.LineString(
-                    [
-                        [bottomLeft[0], bottomLeft[1]],
-                        [bottomRight[0], bottomRight[1]],
-                        [topRight[0], topRight[1]],
-                        [topLeft[0], topLeft[1]],
-                        [bottomLeft[0], bottomLeft[1]]
-                    ])
-                );
-            var
-                coordinates = [
-                    [bottomLeft[0], bottomLeft[1]],
-                    [bottomRight[0], bottomRight[1]],
-                    [topRight[0], topRight[1]],
-                    [topLeft[0], topLeft[1]],
-                    [bottomLeft[0], bottomLeft[1]]
-                ]
-            console
-                .log(coordinates)
-
-            var
-                current_projection = ol.proj.get('EPSG:4326');
-            var
-                new_projection = ol.proj.get('EPSG:3857');
-
-            box
-                .getGeometry()
-
-                .transform(current_projection, new_projection);
-
-            vectorsource
-                .addFeatures([box]);
+        if (feature) {
+            alert(feature.get('name'));
         }
-    )
-map.on("moveend",()=>{
+
+    }
+)
+map.on("moveend", () => {
     const reSearchBtn = document.querySelector("#current-position-research-btn ")
     reSearchBtn.classList.remove("d-none");
 })
@@ -119,7 +76,6 @@ research_btn.addEventListener("click", async (event) => {
     const topRight = ol.proj.toLonLat(ol.extent.getTopRight(extent));
     const bottomRight = ol.proj.toLonLat(ol.extent.getBottomRight(extent));
     const topLeft = ol.proj.toLonLat(ol.extent.getTopLeft(extent));
-    console.log("extent", extent);
 
 
     // get full current screen shape
@@ -130,7 +86,6 @@ research_btn.addEventListener("click", async (event) => {
         [topLeft[0], topLeft[1]],
         [bottomLeft[0], bottomLeft[1]]
     ];
-    console.log(currentPolygon);
     const polygonFeature = new ol.Feature({
         geometry: new ol.geom.Polygon([currentPolygon]),
         // 다른 속성들을 필요에 따라 추가할 수 있습니다.
@@ -139,9 +94,6 @@ research_btn.addEventListener("click", async (event) => {
     const geoJSONFormat = new ol.format.GeoJSON();
     const polygonJsonData = geoJSONFormat.writeFeatureObject(polygonFeature);
 
-    // console.log(JSON.stringify(polygonFeature));
-
-    console.log(polygonJsonData)
     const categoryName = {
         1: "largeClassId",
         2: "middleClassId",
@@ -157,11 +109,37 @@ research_btn.addEventListener("click", async (event) => {
         let selectedCategoryValue = document.querySelector(idSelectorString + i).value;
         currentCategoryValue[categoryName[i]] = selectedCategoryValue;
     }
-    const res = await fetchPoiList({currentPositionValue: polygonJsonData, currentCategoryValue: currentCategoryValue})
+    const res = await fetchPoiList({
+        currentPositionValue: polygonJsonData,
+        currentCategoryValue: currentCategoryValue,
+    })
 
-
-    const reSearchBtn = document.querySelector("#current-position-research-btn ")
-    reSearchBtn.classList.add("d-none")
     console.log(res)
-})
+    addMarkers(res.content)
 
+    research_btn.classList.add("d-none")
+})
+const marker_style = new ol.style.Style({
+    image: new ol.style.Icon({
+        src: 'http://maps.google.com/intl/en_us/mapfiles/ms/micons/orange-dot.png'
+    }),
+});
+const markerSource = new ol.source.Vector();
+const markerLayer = new ol.layer.Vector({
+    source:markerSource
+})
+map.addLayer(markerLayer);
+function addMarkers(elements=[]){
+    markerSource.clear()
+    elements.forEach(e => {
+        const marker = new ol.Feature({
+            geometry: new ol.geom.Point(ol.proj.fromLonLat([e.lon, e.lat])),
+            projection: 'EPSG:4326',
+            name: e.name
+        });
+        marker.setStyle(marker_style)
+        markerSource.addFeature(marker)
+    })
+
+
+}

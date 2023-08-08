@@ -1,10 +1,13 @@
 package com.example.core.repository;
 
-import com.example.core.model.POI;
+import com.example.core.poi.dto.Poi;
+import com.example.core.poi.POIRepository;
+import com.example.core.poi.POISearchParam;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,10 +15,8 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
-class CustomPOIRepositoryImplTest {
+class CustomPoiRepositoryImplTest {
     @Autowired
     POIRepository poiRepository;
     @PersistenceContext
@@ -46,7 +47,7 @@ class CustomPOIRepositoryImplTest {
         polygon.setSRID(4326);
         List<Geometry> event = entityManager.createQuery(
                         "select e.coordinates " +
-                                "from POI e " +
+                                "from Poi e " +
                                 "where within(e.coordinates, :window) = true", Geometry.class)
                 .setParameter("window", polygon)
                 .getResultList();
@@ -92,7 +93,7 @@ class CustomPOIRepositoryImplTest {
 
 //        searchParam.setSpace(new Space("Polygon",po) );
 
-        poiRepository.findBySearchParam(poiSearchParam);
+        Page<Poi> bySearchParam = poiRepository.findByQuerySearchParam(poiSearchParam);
 
     }
 
