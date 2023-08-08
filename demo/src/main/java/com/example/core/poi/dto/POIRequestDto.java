@@ -1,6 +1,6 @@
 package com.example.core.poi.dto;
 
-import com.example.core.model.Category;
+import com.example.core.category.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

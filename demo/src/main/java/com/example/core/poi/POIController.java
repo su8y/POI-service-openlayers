@@ -1,11 +1,15 @@
 package com.example.core.poi;
 
+import com.example.core.category.Category;
+import com.example.core.poi.dto.Poi;
 import com.example.core.poi.dto.POIRequestDto;
-import com.example.core.poi.dto.POISearchDto;
-import com.example.core.poi.util.POIArgsResolve;
-import com.example.core.service.POIService;
+import com.example.core.poi.util.GeomArgsResolve;
+import org.locationtech.jts.geom.Polygon;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +30,20 @@ public class POIController {
 
     @GetMapping
     public EntityModel<ResponseEntity> getList(
-            @POIArgsResolve POISearchDto searchDto
+            @GeomArgsResolve(value = "polygon") Polygon polygon,
+            @RequestParam(name = "inputText") String inputText,
+            @ModelAttribute Category category,
+            @PageableDefault(size = 100) Pageable pageable
     ) {
+        POISearchParam searchparam = new POISearchParam();
+        searchparam.setPolygon(polygon);
+        searchparam.setSelectedCategory(category);
+        searchparam.setInputText(inputText);
+        searchparam.setPageable(pageable);
 
+        Page<Poi> byCurrentPosition = poiService.findByCurrentPosition(searchparam);
 
-        return EntityModel.of(ResponseEntity.ok(searchDto));
+        return EntityModel.of(ResponseEntity.ok(byCurrentPosition));
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
