@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -20,30 +21,34 @@ public class CustomAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
-        log.info("doFilter");
         String token = resolveToken(request);
-
-        // 2. validateToken 으로 토큰 유효성 검사
-        if (token != null && jwtTokenProvider.validateToken(token)) {
-            // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext 에 저장
-            Authentication authentication = jwtTokenProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        try {
+            if (StringUtils.hasText(token) && jwtTokenProvider.validateAccessToken(token)) {
+                // 인증이 완료되면 인증완료 처리를 한다.
+                Authentication authentication = jwtTokenProvider.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+        } catch (Exception e) {
+            SecurityContextHolder.clearContext();
+//            response.sendError(403);
         }
         filterChain.doFilter(request, response);
 
     }
 
     private String resolveToken(HttpServletRequest request) {
-        log.info("resolveTOken");
-//        String bearerToken = request.getHeader("Authorization");
-//        Cookie bearerToken = CookieUtil.getCookie(request, "access_token");
-        String bearerToken = (String) request.getSession().getAttribute("access_token");
-        if (bearerToken != null) {
-            log.info("cookie value={}", bearerToken);
-            return bearerToken.substring(7);
+        String header = request.getHeader("access-token");
+        if (StringUtils.hasText(header))
+            return header.substring(6); // extract prefix [Bearer]
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) return null;
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("access-token"))
+                return cookie.getValue().substring(6);
         }
         return null;
     }
+
 
 }
