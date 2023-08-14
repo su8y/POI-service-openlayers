@@ -91,7 +91,6 @@ class PoiControllerTest {
                         .description("반갑습니다")
                         .lon(1.1d)
                         .lat(0.1d)
-                        .category(category)
                         .build();
         String requestToString = objectMapper.writeValueAsString(dto);
         mvc.perform(multipart("/pois")

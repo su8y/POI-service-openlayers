@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,10 +38,12 @@ public class FileService {
             String UUID = java.util.UUID.randomUUID().toString();
             String storeFilename = String.format("%s.%s", UUID, ext);
 
-            Resource resource = resourceLoader.getResource("classpath:" + fileDir);
+            File uploads = new File(fileDir);
+//            Resource resource = resourceLoader.getResource(fileDir);
 
-            Path path = resource.getFile().toPath();
+            Path path = uploads.toPath();
             Path uploadPath = path.resolve(storeFilename).normalize();
+
 
             Assert.state(!Files.exists(uploadPath), storeFilename + "File already exsits");
 

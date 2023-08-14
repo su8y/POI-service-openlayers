@@ -49,6 +49,7 @@ var map = new ol.Map({
     view: new ol.View({
         center: [14149156.937231855, 4510270.163387867],
         zoom: 18
+
     })
 });
 map.on('click', (evt) => {
@@ -97,8 +98,8 @@ research_btn.addEventListener("click", async (event) => {
     const categoryName = {
         1: "largeClassId",
         2: "middleClassId",
-        3: "detailClassId",
-        4: "smallClassId",
+        3: "smallClassId",
+        4: "detailClassId",
         5: "bottomClassId"
     }
     let currentCategoryValue = {}
@@ -108,6 +109,7 @@ research_btn.addEventListener("click", async (event) => {
     for (let i = 1; i <= 5; i++) {
         let selectedCategoryValue = document.querySelector(idSelectorString + i).value;
         currentCategoryValue[categoryName[i]] = selectedCategoryValue;
+        console.log("cc1",currentCategoryValue)
     }
     const res = await fetchPoiList({
         currentPositionValue: polygonJsonData,
@@ -132,10 +134,9 @@ map.addLayer(markerLayer);
 function addMarkers(elements=[]){
     markerSource.clear()
     elements.forEach(e => {
+        console.log(e.lon, e.lat)
         const marker = new ol.Feature({
-            geometry: new ol.geom.Point(ol.proj.fromLonLat([e.lon, e.lat])),
-            projection: 'EPSG:4326',
-            name: e.name
+            geometry: new ol.geom.Point(new ol.proj.fromLonLat([e.lon, e.lat])),
         });
         marker.setStyle(marker_style)
         markerSource.addFeature(marker)

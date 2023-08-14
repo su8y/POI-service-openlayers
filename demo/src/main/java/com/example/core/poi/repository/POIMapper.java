@@ -1,4 +1,4 @@
-package com.example.core.poi;
+package com.example.core.poi.repository;
 
 import com.example.core.poi.dto.Poi;
 import org.apache.ibatis.annotations.Mapper;

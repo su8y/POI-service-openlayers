@@ -5,10 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>zido</title>
     <th:block th:insert="/fragment/header.html :: my-header"></th:block>
-    <link rel="stylesheet" href="../static/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
 </head>
 <body>
 <th:block th:replace="/fragment/nav.html :: my-navbar"></th:block>
+<button onclick="fetchsecurity()">security test</button>
+<script>function fetchsecurity() {
+    fetch("http://localhost:8080/auth/reissue",{
+        method:"POST"
+    })
+}</script>
 <div class="row">
     <div class="col-3 col-sm-3">
         <div class="align-items-start ">

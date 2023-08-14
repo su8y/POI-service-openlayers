@@ -1,8 +1,8 @@
 package com.example.core.category;
 
 import com.example.core.poi.dto.Poi;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;

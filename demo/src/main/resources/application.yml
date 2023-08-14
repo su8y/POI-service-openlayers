@@ -16,6 +16,9 @@ spring:
       dialect: org.hibernate.spatial.dialect.postgis.PostgisDialect
     open-in-view: false
     database-platform: org.hibernate.spatial.dialect.postgis.PostgisDialect
+  redis:
+    host: 127.0.0.1
+    port: 6379
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
   type-aliases-package: com.example.core.model
@@ -31,4 +34,4 @@ spring:
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
-file.dir: images/
+file.dir: C:/poi-project/images/

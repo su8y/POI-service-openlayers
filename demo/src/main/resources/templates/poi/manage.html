@@ -9,48 +9,28 @@
 </head>
 <body>
 <th:block th:replace="/fragment/nav.html :: my-navbar"></th:block>
-<th:block th:replace="/fragment/search-option-bar.html :: my-searh-option"></th:block>
 <div class="container">
+    <th:block th:replace="/fragment/search-option-bar.html :: my-searh-option"></th:block>
     <div class="row justify-content-between">
-        <button class="btn btn-danger col-sm-1 col-1 text-nowrap">삭제</button>
-        <a th:href="@{/poi/save}" class="btn btn-info col-sm-1 col-1 text-nowrap">추가</a>
-        <ul class="pagination col-3 col-sm-3 ">
-            <li class="page-item">
-                <a href="#" class="page-link">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item">
-                <a href="#" class="page-link">
-                    1
-                </a>
-            </li>
-            <li class="page-item">
-                <a href="#" class="page-link">
-                    1
-                </a>
-            </li>
-            <li class="page-item">
-                <a href="#" class="page-link">
-                    1
-                </a>
-            </li>
-            <li class="page-item">
-                <a href="#" class="page-link">
-                    1
-                </a>
-            </li>
-            <li class="page-item">
-                <a href="#" class="page-link">
-                    1
-                </a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
+        <div class="d-flex justify-content-between my-2">
+            <button id="poi-delete-btn" class="btn btn-danger col-sm-1 col-1 text-nowrap">삭제</button>
+            <a th:href="@{/poi/save}" class="btn btn-info col-sm-1 col-1 text-nowrap">추가</a>
+        </div>
+        <div class="d-flex justify-content-end">
+            <ul class="pagination col-3 col-sm-3 ">
+                <li class="page-item">
+                    <a href="#" class="page-link">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
     <div class="row">
         <table class="table table-striped text-nowrap">
@@ -75,10 +55,10 @@
                     4차분류
                 </th>
                 <th scope="col">
-                    전화번호
+                    5차분류
                 </th>
                 <th scope="col">
-                    지역
+                    전화번호
                 </th>
                 <th scope="col">
                     수정하기
@@ -86,22 +66,184 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row"><input type="checkbox"></input></th>
-                <td>hello</td>
-                <td>hello</td>
-                <td>hello</td>
-                <td>hello</td>
-                <td>hello</td>
-                <td>hello</td>
-                <td>hello</td>
-                <td>hello</td>
-            </tr>
+            <!--                poi row field -->
             </tbody>
         </table>
     </div>
 </div>
-<script th:src="@{/js/api/categoryApi.js}"></script>
-<script th:src="@{/js/handle/category.js}"></script>
+
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="modal-poi-id" >poi id</label>
+                <input id="modal-poi-id"  type="text" class="form-control disabled"/>
+                <label for="modal-poi-name">poi name</label>
+                <input id="modal-poi-name" type="text" class="form-control"/>
+                <label for="modal-poi-telNo">poi telNo</label>
+                <input id="modal-poi-telNo" type="text" class="form-control"/>
+                <label for="modal-poi-description">poi description</label>
+                <input id="modal-poi-description" type="text" class="form-control"/>
+                <div id="map"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function createPageItem(page) {
+        let pageItem = document.createElement(`li`);
+        pageItem.classList.add("page-item")
+
+        let pageLink = document.createElement("a")
+        pageLink.href = `?page=${page}`;
+        pageLink.classList.add("page-link")
+        pageLink.appendChild(document.createTextNode(`${page}`))
+        pageItem.appendChild(pageLink);
+        return pageItem;
+    }
+
+    function crateTableRow(poi) {
+        let tr = document.createElement("tr");
+        let td = document.createElement("td");
+        let check_box = document.createElement("input");
+        check_box.value = poi.id
+        check_box.type = "checkbox"
+        td.appendChild(check_box)
+        //checkbox
+        tr.appendChild(td)
+        td = document.createElement("td");
+        let anker = document.createElement("a");
+        anker.href = `/poi/detail/${poi.id}`;
+        anker.appendChild(document.createTextNode(poi.name));
+        td.appendChild(anker)
+        tr.appendChild(td)
+
+        td = document.createElement("td");
+        td.appendChild(document.createTextNode(poi.category.largeClassName))
+        tr.appendChild(td)
+        td = document.createElement("td");
+        td.appendChild(document.createTextNode(poi.category.middleClassName))
+        tr.appendChild(td)
+        td = document.createElement("td");
+        td.appendChild(document.createTextNode(poi.category.smallClassName))
+        tr.appendChild(td)
+        td = document.createElement("td");
+        td.appendChild(document.createTextNode(poi.category.detailClassName))
+        tr.appendChild(td)
+        td = document.createElement("td");
+        td.appendChild(document.createTextNode(poi.category.bottomClassName))
+        tr.appendChild(td)
+        td = document.createElement("td");
+        td.appendChild(document.createTextNode(poi.telNo))
+        tr.appendChild(td)
+        //edit button
+        td = document.createElement("td");
+        let my_button = document.createElement('button');
+        my_button.classList.add('btn', 'btn-primary')
+        my_button.setAttribute("data-bs-toggle", "modal")
+        my_button.setAttribute("data-bs-target", "#exampleModal")
+        my_button.appendChild(document.createTextNode("수정하기"))
+        td.appendChild(my_button)
+        tr.appendChild(td)
+        return tr;
+
+    }
+
+    console.log(window.location.search);
+    fetch(`/pois/manage${window.location.search}`, {
+        method: "GET"
+    }).then(res => res.json())
+        .then(res => {
+            console.log(res)
+            let htmlTableSectionElement = document.querySelector("tbody");
+
+            res._embedded?.pOIResponseDtoList.forEach(poi => {
+                const tr = crateTableRow(poi)
+                htmlTableSectionElement.appendChild(tr);
+            })
+
+            //pagination
+            let paginationParent = document.querySelector(".pagination");
+
+            const pageNumber = res.page.number
+
+
+            let lastElementChild = paginationParent.lastElementChild;
+            for (let i = pageNumber; i < res.page.totalPages; i++) {
+                let pageItem = createPageItem(i + 1);
+                paginationParent.insertBefore(pageItem, lastElementChild)
+            }
+        })
+    var checkedList = []
+    document.querySelector("table").addEventListener('click', event => {
+        let chkbox = event.currentTarget.querySelector('input[type=checkbox]');
+        if (chkbox.checked) {
+            checkedList = [...checkedList, event.target.value];
+        } else if (!chkbox.checked) {
+            filteredItem = checkedList.filter(e => e === event.target.valueOf());
+            checkedList = filteredItem;
+        }
+        if (event.target.tagName === "BUTTON") {
+            let parent_li = event.target.closest("tr");
+            let nodeValue = parent_li.querySelector(":nth-child(1) > input[type=checkbox]").value
+            fetch(`/pois/manage/${nodeValue}`).then(
+                res => res.json()
+            ).then(res => {
+                let element = document.querySelector(".modal-body");
+                let input_poi_id = element.querySelector("#modal-poi-id")
+                let input_poi_name = element.querySelector("#modal-poi-name")
+                let input_poi_telNo = element.querySelector("#modal-poi-telNo")
+                let input_poi_description = element.querySelector("#modal-poi-description")
+                input_poi_id.value = res.id
+                input_poi_name.value = res.name
+                input_poi_telNo.value = res.telNo
+                input_poi_description.value = res.description
+                console.log(res)
+            });
+
+            console.log("button 클릭", nodeValue)
+        }
+    })
+    /**
+     * 체크한 POI 삭제
+     *  */
+    document.querySelector("#poi-delete-btn").addEventListener('click', event => {
+        if (checkedList.length === 0) {
+            alert("체크박스를 체크후 삭제해주세요.")
+            return;
+        }
+        if (confirm(`${checkedList}를 삭제하시겠습니까 ?`) == true) {
+            deletePois(checkedList).then(
+                res => {
+                    if (res.status == 200) {
+                        let table = document.querySelector("tbody");
+                        let trList = table.querySelectorAll("tr")
+                        trList.forEach(tr => {
+                            let chk_td = tr.querySelector(":nth-child(1) > input[type=checkbox]")
+                            console.log(chk_td)
+                            if (checkedList.includes(tr.querySelector(":nth-child(1) > input").value)) {
+                                table.removeChild(tr);
+                            }
+                        })
+
+                    }
+                }
+            );
+        }
+    })
+
+</script>
+<script th:src="@{/js/api/poi.js}"></script>
 </body>
 </html>

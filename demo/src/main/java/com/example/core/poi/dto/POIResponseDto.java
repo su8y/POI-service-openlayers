@@ -1,5 +1,6 @@
 package com.example.core.poi.dto;
 
+import com.example.core.category.Category;
 import lombok.Data;
 import org.locationtech.jts.geom.Coordinate;
 
@@ -7,9 +8,11 @@ import org.locationtech.jts.geom.Coordinate;
 public class POIResponseDto {
     private Long id;
     private String name;
-    private Coordinate coordinate;
-    private Long categoryCode;
-
     private String telNo;
     private String description;
+    private Long categoryCode;
+
+    private Coordinate coordinate;
+    private Category category;
+
 }

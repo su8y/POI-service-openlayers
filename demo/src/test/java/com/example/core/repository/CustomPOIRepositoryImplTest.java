@@ -1,7 +1,7 @@
 package com.example.core.repository;
 
 import com.example.core.poi.dto.Poi;
-import com.example.core.poi.POIRepository;
+import com.example.core.poi.repository.POIRepository;
 import com.example.core.poi.POISearchParam;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.*;

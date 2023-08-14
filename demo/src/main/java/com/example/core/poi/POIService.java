@@ -1,23 +1,32 @@
 package com.example.core.poi;
 
+import com.example.core.auth.Member;
+import com.example.core.auth.MemberRepository;
 import com.example.core.category.Category;
 import com.example.core.file.FileService;
 import com.example.core.file.UploadImage;
+import com.example.core.poi.dto.POIResponseDto;
 import com.example.core.poi.dto.Poi;
 import com.example.core.category.CategoryRepository;
-import org.geolatte.geom.V;
+import com.example.core.poi.repository.POIMapper;
+import com.example.core.poi.repository.POIRepository;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 @Service
 @Transactional
@@ -29,9 +38,12 @@ public class POIService {
     private final POIMapper poiMapper;
     private final CategoryRepository categoryRepository;
     private final GeometryFactory geometryFactory;
+    private final MemberRepository memberRepository;
 
-    public void createPOI(Poi poi, Integer categoryCode, List<MultipartFile> images) {
-        //Add category
+    public void createPOI(Poi poi, Integer categoryCode, List<MultipartFile> images, String memberId) {
+        Member member = memberRepository.getReferenceById(memberId);
+        poi.setMember(member);
+
         Category proxyCategory = categoryRepository.getReferenceById(categoryCode);
         poi.setCategory(proxyCategory);
 
@@ -61,13 +73,22 @@ public class POIService {
         return poiMapper.selectAll();
     }
 
-    public void removePOI(Long id) {
-        Poi referenceById = poiRepository.getReferenceById(id);
-        poiRepository.delete(referenceById);
+    public void removePOI(List<Long> id) {
+        poiRepository.deleteAllById(id);
     }
 
     public Page<Poi> findByCurrentPosition(POISearchParam poiSearchParam) {
         Page<Poi> bySearchParam = poiRepository.findByQuerySearchParam(poiSearchParam);
         return bySearchParam;
     }
+
+
+    public Page<POIResponseDto> getManagePoiList(POISearchParam poiSearchParam) {
+        return poiRepository.findByManagePoiSearchParam(poiSearchParam);
+    }
+
+    public Poi getDetailPoi(Long id) {
+        return poiRepository.findById(id).orElseThrow();
+    };
+
 }

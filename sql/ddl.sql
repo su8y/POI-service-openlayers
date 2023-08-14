@@ -55,3 +55,12 @@ CREATE TABLE public.category (
 alter table POI add constraint fk_category_id foreign key(category_id)
 references category(category_code);
 
+create table upload_image(
+	store_file_name varchar,
+	original_file_name varchar not null,
+	ext varchar(10) not null,
+	create_at timestamp,
+	target_id integer not null,
+	type varchar(5) not null,
+	constraint fk_upload_image_id primary key(store_file_name)
+)

@@ -31,6 +31,8 @@ public class QueryCategoryRepositoryImpl implements QueryCategoryRepository {
             from = from.select(Projections.fields(Category.class,category.detailClassId, category.detailClassName));
         } else if (currentValue.getBottomClassId() == null) {
             from = from.select(Projections.fields(Category.class,category.bottomClassId, category.bottomClassName));
+        } else{
+            from = from.select(Projections.fields(Category.class,category.categoryCode));
         }
         JPAQuery<?> where = from.where(
                         isEqualsLargeClass(currentValue.getLargeClassId()),

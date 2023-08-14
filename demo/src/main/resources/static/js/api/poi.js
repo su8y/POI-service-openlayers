@@ -1,4 +1,4 @@
-const fetchPoiList = async ({
+async function fetchPoiList({
                                 currentPositionValue,
                                 currentCategoryValue,
                                 page = {
@@ -7,7 +7,7 @@ const fetchPoiList = async ({
                                 },
                                 success,
                                 error
-                            }) => {
+                            }) {
     let urlSearchParams = new URLSearchParams();
     Object.keys(currentCategoryValue).filter(key => currentCategoryValue[key] !== null)
         .forEach(key => {
@@ -19,14 +19,36 @@ const fetchPoiList = async ({
     const res = await fetch('/pois?' + urlSearchParams, {
         method: "get",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         }
     })
     if (res.status === 200) {
         const data = await res.json();
-        console.log("in function", data)
         return data.body;
     } else {
         throw new Error('Unable')
     }
+}
+
+async function fetchManagePoiList({success, error}) {
+    fetch(`/pois/manage${window.location.search}`, {
+        method: "GET"
+    }).then(res => res.json())
+        .then(res => success)
+}
+
+async function deletePois(pois) {
+    return fetch('/pois/'+pois.join(','), {
+        method: "DELETE",
+
+    });
+}
+
+async function updatePois(modifiedPois) {
+    fetch('/pois', {
+        method: "PUT",
+        body: modifiedPois
+
+    }).then(res => res.json());
+
 }

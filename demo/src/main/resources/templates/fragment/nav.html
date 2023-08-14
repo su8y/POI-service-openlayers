@@ -8,12 +8,11 @@
     <link rel="stylesheet" href="../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
           th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"
     />
-    <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
     <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
     <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
 </head>
 <body>
-<nav class="navbar px-2" style="height: 66px" th:fragment="my-navbar">
+<nav class="navbar px-2" style="height: 66px; margin-bottom: 5px" th:fragment="my-navbar">
     <a href="/home" th:href="@{/}" class="navbar-brand">Postgis Project</a>
     <ul class="nav nav-tabs">
         <li class="nav-item">
@@ -37,19 +36,15 @@
                 POI
             </a>
         </li>
-        <script>
-            const navItem = document.querySelectorAll("a");
-            navItem.forEach((item) => {
-                item.addEventListener('click', () => {
-                    alert("hello")
-                })
-            })
-
-        </script>
     </ul>
     <ul class="">
-
-        <div th:unless="${session.get('access_token')}" class="d-flex gap-2">
+        <div sec:authorize="${hasAnyRole('ROLE_user','ROLE_admin')}">
+            <li>
+                <a href="/user/sign-up" th:href="@{/logout}" class="btn btn-secondary">로그아웃</a>
+            </li>
+            <th:block sec:authorize="hasRole('ROLE_user')" th:text="${#authentication.getName()}"></th:block>
+        </div>
+        <div sec:authorize="${not hasAnyRole('ROLE_user','ROLE_admin')}" class="d-flex gap-2">
             <li>
                 <a href="/user/sign-in" th:href="@{/signIn}" class="btn btn-primary">로그인</a>
             </li>
@@ -57,28 +52,7 @@
                 <a href="/user/sign-up" th:href="@{/signUp}" class="btn btn-secondary">회원가입</a>
             </li>
         </div>
-        <div th:if="${session.get('access_token')}">
-            <li>
-                <a href="/user/sign-up" th:href="@{/logout}" class="btn btn-secondary">로그아웃</a>
-            </li>
-            <th:block sec:authorize="hasRole('ROLE_user')">인증된사용자</th:block>
-        </div>
     </ul>
 </nav>
-<script type="text/javascript">
-    // console.log('hi')
-    let navigationBar = document.querySelector("nav");
-    navigationBar.onclick = function (event) {
-        let navLink = event.target.closest('a.nav-link'); // (1)
-
-        if (!navLink) return; // (2)
-
-        if (!navigationBarl.contains(navLink)) return; // (3)
-        navLink.classList.add("active")
-        alert("hello")
-    }
-
-</script>
-
 </body>
 </html>

@@ -20,6 +20,6 @@ public class POIRequestDto {
     String description;
     Double lon;
     Double lat;
-
-    Category category;
+    Double[] coordinate;
+    Integer categoryCode;
 }

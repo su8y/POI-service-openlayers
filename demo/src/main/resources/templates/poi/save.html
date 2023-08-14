@@ -6,78 +6,31 @@
     <link rel="stylesheet" href="../../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
           th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"
     />
-
 </head>
 <body>
 <th:block th:replace="/fragment/nav.html :: my-navbar"></th:block>
-
 <div class="container pt-4 g-2">
-    <form>
+    <form id="saveForm">
         <div class="row">
             <label for="poi-name" class="form-label">
                 POI 이름
             </label>
-            <input type="text" class="form-control" id="poi-name" placeholder="poiname"/>
+            <input name="name" type="text" class="form-control" id="poi-name" placeholder="poiname"/>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-3 col-md-2 d-flex flex-column align-items-center">
-                <div class="mb-3">1차 분류</div>
-                <select class="form-select rounded-5 " aria-label="Default select example">
-                    <option selected>None</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-            <div class="col-3 col-md-2 d-flex flex-column align-items-center">
-                <div class="mb-3 ">2차 분류</div>
-                <select class="form-select rounded-5 " aria-label="Default select example">
-                    <option selected>None</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-            <div class="col-3 col-md-2 d-flex flex-column align-items-center">
-                <div class="mb-3">3차 분류</div>
-                <select class="form-select rounded-5 " aria-label="Default select example">
-                    <option selected>None</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-            <div class="col-3 col-md-2 d-flex flex-column align-items-center">
-                <div class="mb-3">4차 분류</div>
-                <select class="form-select rounded-5 " aria-label="Default select example">
-                    <option selected>None</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-            <div class="col-3 col-md-2 d-flex flex-column align-items-center">
-                <div class="mb-3">5차 분류</div>
-                <select class="form-select rounded-5 " aria-label="Default select example">
-                    <option selected>None</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
+        <div class="row justify-content-center" th:replace="/fragment/search-option-bar.html :: my-searh-option">
         </div>
         <div class="row">
             <div class="form-label">전화번호</div>
-            <input class="form-control" type="text" placeholder="010-0000-0000">
+            <input name="telNo" class="form-control" type="text" placeholder="010-0000-0000">
         </div>
         <div class="row">
             <label for="poi-description">POI부가설명</label>
-            <textarea class="form-control" id="poi-description" rows="3"></textarea>
+            <textarea name="description" class="form-control" id="poi-description" rows="3"></textarea>
         </div>
         <div class="row">
             <div class="mb-3">
                 <label for="formFileMultiple" class="form-label">이미지 추가하기</label>
-                <input class="form-control" type="file" id="formFileMultiple" multiple>
+                <input name="images" class="form-control" type="file" id="formFileMultiple" multiple>
             </div>
         </div>
         <div style="width: 5rem; height: 5rem; background-color: gray">
@@ -100,7 +53,8 @@
             </nav>
             <div>
                 <div class="collapse" id="selectMap1" data-bs-parent="#myMap">hello Wolrd1</div>
-                <div class="collapse" id="selectMap2" data-bs-parent="#myMap">hello Wolrd2</div>
+                <div class="collapse" id="selectMap2" data-bs-parent="#myMap" style="height: 900px;width: 900px;">
+                </div>
                 <div class="collapse" id="selectMap3" data-bs-parent="#myMap">
                     <form>
                         <label for="lon">lontitude</label>
@@ -111,12 +65,18 @@
                     </form>
                 </div>
             </div>
+            <div id="poi_map" style="height: 900px;width: 900px;"></div>
             <div class="row justify-content-end">
-                <button class="btn btn-primary mt-3 w-25" type="submit">저장하기</button>
+                <button class="btn btn-primary mt-3 w-25" id="submitBtn" type="submit">저장하기</button>
             </div>
         </div>
     </form>
 </div>
 
+<script src="../../static/node_modules/ol/dist/ol.js" th:src="@{/node_modules/ol/dist/ol.js}"></script>
+<script>
+
+  </script>
+<script type="module" th:src="@{/js/savePoiMap.js}"></script>
 </body>
 </html>
