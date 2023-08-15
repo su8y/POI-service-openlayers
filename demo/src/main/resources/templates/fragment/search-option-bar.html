@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="../../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"/>
 </head>
 <body>
-<div class="row" th:fragment="my-searh-option">
+<div class="row position-absolute" th:fragment="my-searh-option" style="z-index: 100; left: 70px">
     <div id="cate-code" class="d-none"></div>
     <div class="col d-flex flex-column align-items-center">
-        <div class="">1차 분류</div>
+        <div><strong>1차 분류</strong></div>
         <select name="largeClassId" id="cate-1" class="form-select rounded-5" aria-label="Default select example">
 
             <option disabled selected value>None</option>

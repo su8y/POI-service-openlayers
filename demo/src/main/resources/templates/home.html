@@ -2,19 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>zido</title>
-    <th:block th:insert="/fragment/header.html :: my-header"></th:block>
+    <title>경로찾기</title>
+    <th:block th:insert="/fragment/header.html :: my-header"/>
+    <link rel="stylesheet" href="../../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"/>
 </head>
 <body>
-<th:block th:replace="/fragment/nav.html :: my-navbar"></th:block>
-<button onclick="fetchsecurity()">security test</button>
-<script>function fetchsecurity() {
-    fetch("http://localhost:8080/auth/reissue",{
-        method:"POST"
-    })
-}</script>
-<div class="row">
+<th:block th:replace="/fragment/nav.html :: my-navbar"/>
+<div class="d-flex my-container ">
     <div class="col-3 col-sm-3">
         <div class="align-items-start ">
             <div class="d-flex flex-column">
@@ -73,50 +68,15 @@
 
         </div>
     </div>
-    <div class="col gap-3">
-        <div class="row">
-            <input class="col-3 form-control form-control-sm w-25" type="text" placeholder="검색어 .. "/>
-            <div class="col d-flex flex-column align-items-center">
-                <div class="">1차 분류</div>
-                <select id="cate-1" class="form-select rounded-5" aria-label="Default select example">
-                    <option selected>None</option>
-                </select>
-            </div>
-            <div class="col d-flex flex-column align-items-center">
-                <div class="" id="">2차 분류</div>
-                <select id="cate-2" class="form-select rounded-5 " aria-label="Default select example">
-                    <option selected>None</option>
-                </select>
-            </div>
-            <div class="col d-flex flex-column align-items-center">
-                <div class="">3차 분류</div>
-                <select id="cate-3" class="form-select rounded-5 " aria-label="Default select example">
-                    <option selected>None</option>
-                </select>
-            </div>
-            <div class="col d-flex flex-column align-items-center">
-                <div class="">4차 분류</div>
-                <select id="cate-4" class="form-select rounded-5 " aria-label="Default select example">
-                    <option selected>None</option>
-                </select>
-            </div>
-            <div class="col d-flex flex-column align-items-center">
-                <div class="">5차 분류</div>
-                <select id="cate-5" class="form-select rounded-5 " aria-label="Default select example">
-                    <option selected>None</option>
-                </select>
-            </div>
+    <div class="col position-relative">
+        <th:block th:replace="/fragment/search-option-bar.html :: my-searh-option "></th:block>
+        <div id="map" class="col">
+            <button id="current-position-research-btn" type="button" class="research-btn">재검색</button>
         </div>
-        <div id="map" class="map"></div>
     </div>
-
-    <button id="current-position-research-btn" type="button" class="">재 검색</button>
 </div>
 
 <script th:src="@{/js/api/poi.js}"></script>
-<script type="module" th:src="@{/js/map.js}"></script>
-<script type="text/javascript" th:src="@{/js/api/categoryApi.js}"></script>
-<script type="text/javascript" th:src="@{/js/handle/category.js}"></script>
-
+<script th:src="@{/js/map.js}"></script>
 </body>
 </html>
