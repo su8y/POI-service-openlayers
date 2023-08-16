@@ -28,6 +28,7 @@ public class QueryPOIRepositoryImpl implements QueryPOIRepository {
 
     @Override
     public Page<Poi> findByQuerySearchParam(POISearchParam searchParam) {
+        System.out.println("findByQuerySearchParam");
         String inputText = searchParam.getInputText();
         Pageable pageable = searchParam.getPageable();
         Polygon polygon = searchParam.getPolygon();
@@ -36,13 +37,21 @@ public class QueryPOIRepositoryImpl implements QueryPOIRepository {
                 factory.from(poi)
                         .select(poi)
                         .leftJoin(poi.category, category)
+                        .fetchJoin()
                         .where(withinBbox(polygon),
                                 equalsInputText(inputText),
                                 selectedCategory(selectedCategory)
                         );
 
         List<Poi> fetch = (List<Poi>) where.offset(pageable.getOffset()).limit(pageable.getPageSize()).fetch();
-        JPAQuery<Long> countQuery = where.select(poi.count());
+        JPAQuery<Long> countQuery = factory.from(poi)
+                        .select(poi.count())
+                        .leftJoin(poi.category, category)
+                        .where(withinBbox(polygon),
+                                equalsInputText(inputText),
+                                selectedCategory(selectedCategory)
+                        );
+
 
         return PageableExecutionUtils.getPage(fetch, pageable, countQuery::fetchOne);
     }
@@ -71,7 +80,14 @@ public class QueryPOIRepositoryImpl implements QueryPOIRepository {
                 );
 
         List<POIResponseDto> fetch = where.offset(pageable.getOffset()).limit(pageable.getPageSize()).fetch();
-        JPAQuery<Long> countQuery = where.select(poi.id.count());
+        JPAQuery<Long> countQuery = factory.from(poi)
+                .select(poi.count())
+                .leftJoin(poi.member, member)
+                .leftJoin(poi.category, category)
+                .where(
+                        selectedCategory(selectedCategory),
+                        equalsMemberId(memberId)
+                );
 
         return PageableExecutionUtils.getPage(fetch, pageable, countQuery::fetchOne);
     }

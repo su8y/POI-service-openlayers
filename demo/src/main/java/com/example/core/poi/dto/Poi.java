@@ -39,7 +39,6 @@ public class Poi {
     private Point coordinates;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "category_code")
     private Category category;
 
