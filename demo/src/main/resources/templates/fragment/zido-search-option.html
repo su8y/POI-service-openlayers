@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="row position-absolute text-end" th:fragment="my-searh-option"
+     style="z-index: 1; right: 0">
+  <div id="cate-code" class="d-none"></div>
+  <div class="col d-flex flex-column align-items-center">
+    <div><strong>1차 분류</strong></div>
+    <select name="largeClassId" id="cate-1" class="form-select rounded-5" aria-label="Default select example">
+      <option  selected value>None</option>
+    </select>
+  </div>
+  <div class="col d-flex flex-column align-items-center">
+    <div class="" id=""><strong>2차 분류</strong></div>
+    <select name="middleClassId" id="cate-2" class="form-select rounded-5 " aria-label="Default select example">
+      <option  selected value>None</option>
+
+    </select>
+  </div>
+  <div class="col d-flex flex-column align-items-center">
+    <div class=""><strong>3차 분류</strong></div>
+    <select name="smallClassId" id="cate-3" class="form-select rounded-5 " aria-label="Default select example">
+      <option  selected value>None</option>
+
+    </select>
+  </div>
+  <div class="col d-flex flex-column align-items-center">
+    <div class=""><strong>4차 분류</strong></div>
+    <select name="detailClassId" id="cate-4" class="form-select rounded-5 " aria-label="Default select example">
+      <option  selected value>None</option>
+    </select>
+  </div>
+  <div class="col d-flex flex-column align-items-center">
+    <div class=""><strong>5차 분류</strong></div>
+    <select name="bottomClassId" id="cate-5" class="form-select rounded-5 " aria-label="Default select example">
+
+      <option  selected value>None</option>
+
+    </select>
+  </div>
+  <script th:src="@{/js/api/categoryApi.js}"></script>
+  <script th:src="@{/js/handle/category.js}"></script>
+</div>
+
+
+</body>
+</html>

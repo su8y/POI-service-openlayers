@@ -3,7 +3,7 @@ let cate2Select = document.querySelector("#cate-2");
 let cate3Select = document.querySelector("#cate-3");
 let cate4Select = document.querySelector("#cate-4");
 let cate5Select = document.querySelector("#cate-5");
-const defaultOptionNode = ' <option disabled selected value>None</option> ';
+const defaultOptionNode = ' <option selected value>None</option> ';
 
 const categoryId = [
     'undefinded',
