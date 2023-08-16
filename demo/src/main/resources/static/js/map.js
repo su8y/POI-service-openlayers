@@ -38,6 +38,11 @@ var vectorlayer = new ol.layer.Vector({
     })
 });
 
+var view =new ol.View({
+    center: [14149156.937231855, 4510270.163387867],
+    zoom: 18
+
+})
 var map = new ol.Map({
     layers: [
         new ol.layer.Tile({
@@ -46,11 +51,7 @@ var map = new ol.Map({
         vectorlayer
     ],
     target: 'map',
-    view: new ol.View({
-        center: [14149156.937231855, 4510270.163387867],
-        zoom: 18
-
-    })
+    view: view
 });
 map.on('click', (evt) => {
         var feature = map.forEachFeatureAtPixel(evt.pixel,
@@ -109,14 +110,16 @@ research_btn.addEventListener("click", async (event) => {
     for (let i = 1; i <= 5; i++) {
         let selectedCategoryValue = document.querySelector(idSelectorString + i).value;
         currentCategoryValue[categoryName[i]] = selectedCategoryValue;
-        console.log("cc1",currentCategoryValue)
     }
     const res = await fetchPoiList({
         currentPositionValue: polygonJsonData,
         currentCategoryValue: currentCategoryValue,
     })
 
-    console.log(res)
+    window.localStorage.setItem("currentPosition",JSON.stringify(polygonJsonData))
+    window.localStorage.setItem("currentCategory",JSON.stringify(currentCategoryValue))
+
+    poiSideUpdateList(res,currentCategoryValue)
     addMarkers(res.content)
 
     research_btn.classList.add("d-none")
@@ -128,13 +131,13 @@ const marker_style = new ol.style.Style({
 });
 const markerSource = new ol.source.Vector();
 const markerLayer = new ol.layer.Vector({
-    source:markerSource
+    source: markerSource
 })
 map.addLayer(markerLayer);
-function addMarkers(elements=[]){
+
+function addMarkers(elements = []) {
     markerSource.clear()
     elements.forEach(e => {
-        console.log(e.lon, e.lat)
         const marker = new ol.Feature({
             geometry: new ol.geom.Point(new ol.proj.fromLonLat([e.lon, e.lat])),
         });

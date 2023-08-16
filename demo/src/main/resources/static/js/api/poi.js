@@ -16,6 +16,7 @@ async function fetchPoiList({
 
     urlSearchParams.append("polygon", currentPositionValue.geometry.coordinates[0])
     urlSearchParams.append("inputText", "")
+    urlSearchParams.append("page",page.page)
     const res = await fetch('/pois?' + urlSearchParams, {
         method: "get",
         headers: {

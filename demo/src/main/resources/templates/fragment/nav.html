@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
+    <link rel="stylesheet" href="../../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
           th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"
     />
     <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
@@ -13,7 +13,21 @@
 </head>
 <body>
 <nav class="navbar px-2" style="height: 66px; margin-bottom: 5px" th:fragment="my-navbar">
-    <a href="/home" th:href="@{/}" class="navbar-brand">Postgis Project</a>
+    <div class="d-flex">
+        <a href="#" class="home-side-bar-toggle-btn"><i class="bi bi-list fs-1 fw-bold icon-link-hover"></i></a>
+        <a href="/home" th:href="@{/}" class="navbar-brand">Postgis Project</a>
+    </div>
+    <script>
+        var siderToggleBtn = document.querySelector(".home-side-bar-toggle-btn")
+        siderToggleBtn.addEventListener('click', (event) => {
+            event.preventDefault()
+            var homeSider = document.querySelector('.home-side-bar')
+            if (homeSider.classList.contains("d-none"))
+                homeSider.classList.remove('d-none')
+            else
+                homeSider.classList.add("d-none")
+        })
+    </script>
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/" th:href="@{/}">지도</a>

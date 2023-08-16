@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div th:fragment="route-list-side-bar" class="container route-list-side-bar d-none">
+    <button class="btn text-decoration-underline">경유지 추가하기</button>
+    <div class="row">
+        <label for="start-point">출발지</label>
+        <input type="text" id="start-point"/>
+        <label for="end-point">도착지</label>
+        <input type="text" id="end-point"/>
+    </div>
+    <div class="row">
+        <div class="btn-group">
+            <button class="btn btn-primary">대중교통</button>
+            <button class="btn btn-outline-primary">자동차</button>
+            <button class="btn btn-outline-primary">도보</button>
+        </div>
+    </div>
+    <div class="d-flex flex-column align-items-center bg-white mb-2 route-list-select-item">
+        <img class="route-list-img"
+             src="../static/images/img.png" th:src="@{/images/img.png}" alt="순대국이미지">
+        <div class="rounded-5 d-flex w-75 position-relative px-5 route-item-title offcanvas-top flex-sm-row flex-column flex-md-row justify-content-between text-start "
+        >
+            <div>
+                <div class="d-block h5 ">0asdfasdfasd</div>
+                <div class="d-block h5 ">-> 도착지</div>
+            </div>
+            <div class="text-end">
+                43분 13km
+            </div>
+        </div>
+        <div class="w-100 px-2 py-1">
+            <div>00번 타고</div>
+            <div>00번 타고</div>
+            <div>00번 타고</div>
+            <div>00번 타고</div>
+            <div>00번 타고</div>
+            <div class="text-end fs-0">택시비120원</div>
+            <div class="text-end">택시비120원</div>
+        </div>
+    </div>
+
+    <div class="d-flex align-items-center bg-white  route-list-item">
+        <div class="w-100 fs-4 text-center">43분 43km</div>
+    </div>
+</div>
+<div th:fragment="poi-list-side-bar" class="poi-list-side-bar">
+    <div class="align-items-start position-sticky" style="background-color: #dddddd; top: 29px">
+        <div class="d-flex flex-column">
+            <h6>산업>서비스산업>기타서비스 검색결과</h6>
+        </div>
+        <ul id="poi-page-field" class="pagination">
+
+        </ul>
+    </div>
+    <hr/>
+    <div class="poi-side-list">
+        <div class=" item item-detail">
+            <img src="../static/images/img.png" th:src="@{/images/img.png}" alt="순대국이미지">
+            <div class="list-header">
+                <div class="item-title">
+                    00용역
+                </div>
+                <div class="item-category">산업/서비스산업/기타서비스</div>
+            </div>
+            <p class="item-content">
+                <span>asdfasdfasdf</span>
+                <span>asdfasdfasdf</span>
+                <span>asdfasdfasdf</span>
+                <span>asdfasdfasdf</span>
+                <span>asdfasdfasdf</span>
+                <span>asdfasdfasdf</span>
+                <span>asdfasdfasdf</span>
+                <span>asdfasdfasdf</span>
+                <span>asdfasdfasdf</span>
+                <span>asdfasdfasdf</span>
+            </p>
+            <div class="item-action">
+                <div class="btn btn-outline-info">경로 찾기</div>
+                <div class="btn btn-outline-primary">로드뷰</div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div th:fragment="item">
+    <div class="item">
+        <div class="item-title" th:text="${title}+ wolrd">
+        </div>
+        <div class="item-category" th:text="${category} + world">
+            산업/서비스산업/기타서비스
+        </div>
+    </div>
+</div>
+</body>
+</html>

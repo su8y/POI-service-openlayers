@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="poi-list-side-bar" class="poi-list-side-bar">
+    <div class="align-items-start">
+        <div class="d-flex flex-column">
+            <h6>산업>서비스산업>기타서비스 검색결과</h6>
+        </div>
+    </div>
+    <hr/>
+    <div class="d-flex flex-column gap-3"
+         style="background-color:#dddddd;">
+        <div class="d-flex flex-column align-items-center bg-white">
+            <img src="../static/images/img.png" th:src="@{/images/img.png}" alt="순대국이미지"
+                 style="
+                     width: 100%;
+                     height: 121px;
+                     z-index: 8;
+                "
+            >
+            <div class="rounded-5 d-flex w-75 position-relative px-5"
+                 style="
+            background-color: #eeeeee;
+            height: 50px;
+            box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+            top:-25px;
+            z-index: 9;
+            ">
+                <div>
+                    00용역
+                    <p>111-111-111</p>
+                </div>
+                <div>인력공급</div>
+            </div>
+            <div>산업/서비스산업/기타서비스</div>
+            <span>
+                <p>asdfasdfasdf</p>
+                <p>asdfasdfasdf</p>
+            </span>
+            <div>
+                <div class="btn">경로 찾기</div>
+                <div class="btn">로드뷰</div>
+            </div>
+
+        </div>
+        <div class="">
+            <div class="text-black-50 d-flex flex-column gap-2">
+                <div class="bg-white">
+                    순대국<br/>
+                    산업/서비스산업/기타서비스
+                </div>
+                <div class="bg-white">
+                    산업/서비스산업/기타서비스
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
