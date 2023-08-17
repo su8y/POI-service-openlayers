@@ -3,7 +3,7 @@ package com.example.core.poi.repository;
 import com.example.core.category.Category;
 import com.example.core.poi.POISearchParam;
 import com.example.core.poi.dto.POIResponseDto;
-import com.example.core.poi.dto.Poi;
+import com.example.core.poi.Poi;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
