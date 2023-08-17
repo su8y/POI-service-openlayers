@@ -1,5 +1,6 @@
 package com.example.core.file;
 
+import com.example.core.file.common.TargetType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,5 +26,6 @@ public class UploadImage {
     LocalDateTime createAt;
 
     Long targetId;
-    String type;
+    @Enumerated(EnumType.STRING)
+    TargetType type;
 }

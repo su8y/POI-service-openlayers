@@ -3,11 +3,13 @@ package com.example.core.poi;
 import com.example.core.auth.Member;
 import com.example.core.auth.MemberRepository;
 import com.example.core.category.Category;
+import com.example.core.file.FileRepository;
 import com.example.core.file.FileService;
 import com.example.core.file.UploadImage;
+import com.example.core.file.common.TargetType;
 import com.example.core.poi.dto.POIResponseDto;
-import com.example.core.poi.dto.Poi;
 import com.example.core.category.CategoryRepository;
+import com.example.core.poi.dto.PoiDTO;
 import com.example.core.poi.repository.POIMapper;
 import com.example.core.poi.repository.POIRepository;
 import org.locationtech.jts.geom.Coordinate;
@@ -16,17 +18,12 @@ import org.locationtech.jts.geom.Point;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Supplier;
 
 @Service
 @Transactional
@@ -39,6 +36,7 @@ public class POIService {
     private final CategoryRepository categoryRepository;
     private final GeometryFactory geometryFactory;
     private final MemberRepository memberRepository;
+    private final FileRepository fileRepository;
 
     public void createPOI(Poi poi, Integer categoryCode, List<MultipartFile> images, String memberId) {
         Member member = memberRepository.getReferenceById(memberId);
@@ -58,7 +56,7 @@ public class POIService {
             List<UploadImage> uploadImages = fileService.uploadImages(images);
             uploadImages.forEach(uploadImage -> {
                 uploadImage.setTargetId(save.getId());
-                uploadImage.setType("POI");
+                uploadImage.setType(TargetType.POI);
             });
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -87,8 +85,14 @@ public class POIService {
         return poiRepository.findByManagePoiSearchParam(poiSearchParam);
     }
 
-    public Poi getDetailPoi(Long id) {
-        return poiRepository.findById(id).orElseThrow();
-    };
+    public PoiDTO getDetailPoi(Long id) {
+        Poi poi = poiRepository.findById(id).orElseThrow();
+
+        PoiDTO dto = poi.toDTO();
+        List<UploadImage> uploadImagesByTarget = fileRepository.findUploadImagesByTarget(dto.getId(), TargetType.POI);
+        dto.setImages(uploadImagesByTarget);
+
+        return dto;
+    }
 
 }

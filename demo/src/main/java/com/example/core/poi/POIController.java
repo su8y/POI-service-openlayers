@@ -3,7 +3,7 @@ package com.example.core.poi;
 import com.example.core.category.Category;
 import com.example.core.poi.dto.POIRequestDto;
 import com.example.core.poi.dto.POIResponseDto;
-import com.example.core.poi.dto.Poi;
+import com.example.core.poi.dto.PoiDTO;
 import com.example.core.poi.util.GeomArgsResolve;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -76,9 +76,11 @@ public class POIController {
         return ResponseEntity.ok(entityModels);
     }
 
-    @GetMapping("/manage/{poiId}")
-    public ResponseEntity<Poi> detailPoi(@PathVariable(name = "poiId") Long id) {
-        return ResponseEntity.ok(poiService.getDetailPoi(id));
+    @GetMapping("/detail/{poiId}")
+    public ResponseEntity<PoiDTO> detailPoi(@PathVariable(name = "poiId") Long id) {
+        PoiDTO detailPoi = poiService.getDetailPoi(id);
+
+        return ResponseEntity.ok(detailPoi);
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,6 +1,6 @@
 package com.example.core;
 
-import com.example.core.poi.dto.Poi;
+import com.example.core.poi.Poi;
 import com.example.core.poi.repository.POIMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

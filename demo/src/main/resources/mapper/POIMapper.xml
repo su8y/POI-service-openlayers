@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.core.poi.repository.POIMapper">
-    <select id="selectAll" resultType="com.example.core.poi.dto.Poi">
+    <select id="selectAll" resultType="com.example.core.poi.Poi">
         select * from POI;
     </select>
 

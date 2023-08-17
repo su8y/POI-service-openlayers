@@ -1,7 +1,9 @@
-package com.example.core.poi.dto;
+package com.example.core.poi;
 
 import com.example.core.auth.Member;
 import com.example.core.category.Category;
+import com.example.core.poi.dto.POIRequestDto;
+import com.example.core.poi.dto.PoiDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -67,5 +69,17 @@ public class Poi {
                 .lon(dto.getCoordinate()[0])
                 .lat(dto.getCoordinate()[1])
                 .build();
+    }
+    public PoiDTO toDTO(){
+        return PoiDTO.builder()
+                .id(id)
+                .name(name)
+                .description(description)
+                .member(member)
+                .lon(lon)
+                .lat(lat)
+                .category(category)
+                .build();
+
     }
 }

@@ -38,6 +38,7 @@ public class SecurityConfig {
             "/sub/**",
             "/pub/**",
             "/wss/**",
+            "/download/**"
     };
     private final JwtAccessDeninedHandler jwtAccessDeninedHandler;
     private final JwtTokenProvider jwtTokenProvider;

@@ -1,6 +1,6 @@
 package com.example.core.category;
 
-import com.example.core.poi.dto.Poi;
+import com.example.core.poi.Poi;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
