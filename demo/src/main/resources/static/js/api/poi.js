@@ -16,7 +16,7 @@ async function fetchPoiList({
 
     urlSearchParams.append("polygon", currentPositionValue.geometry.coordinates[0])
     urlSearchParams.append("inputText", "")
-    urlSearchParams.append("page",page.page)
+    urlSearchParams.append("page", page.page)
     const res = await fetch('/pois?' + urlSearchParams, {
         method: "get",
         headers: {
@@ -31,6 +31,17 @@ async function fetchPoiList({
     }
 }
 
+async function fetchDetailPoi(poiId) {
+    const res =  fetch(`/pois/detail/${poiId}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+    return res
+}
+
 async function fetchManagePoiList({success, error}) {
     fetch(`/pois/manage${window.location.search}`, {
         method: "GET"
@@ -39,7 +50,7 @@ async function fetchManagePoiList({success, error}) {
 }
 
 async function deletePois(pois) {
-    return fetch('/pois/'+pois.join(','), {
+    return fetch('/pois/' + pois.join(','), {
         method: "DELETE",
 
     });

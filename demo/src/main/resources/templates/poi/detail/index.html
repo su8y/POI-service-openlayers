@@ -3,9 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"/>
+    <th:block th:insert="/fragment/header.html :: my-header"/>
+    <style>
+        body {
+            background: #eeeeee;
+        }
+
+        .card {
+            box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+        }
+
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 0 solid rgba(0, 0, 0, .125);
+            border-radius: 1rem;
+        }
+
+        .text-reset {
+            --bs-text-opacity: 1;
+            color: inherit !important;
+        }
+
+        a {
+            color: #5465ff;
+            text-decoration: none;
+        }
+
+        img {
+            height: 400px;
+        }
+    </style>
 </head>
 <body>
+<th:block th:insert="/fragment/nav.html::my-navbar"/>
+<a onclick="history.back()"><i class="bi bi-caret-left fs-1"></i></a>
+<div class="container-fluid">
+    <div class="container" id="mya">
+        <!-- Title -->
+        <div class="d-flex justify-content-between align-items-center py-3">
+            <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> POI <strong class="detail-name"
+                                                                                style="background-color: rgba(255,255,0,0.65)"></strong>
+                상세정보보기
+            </h2>
+        </div>
+
+        <!-- Main content -->
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Details -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="mb-3 d-flex justify-content-between">
+                            <div>
+                                <span class="me-3"><strong class="detail-id"></strong></span>
+                                <div class="detail-category">
+                                    <span class="badge rounded-pill bg-info detail-category"> </span>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <button class="btn btn-link p-0 me-3 d-none d-lg-block btn-icon-text"><i
+                                        class="bi bi-download"></i> <span class="text">Invoice</span></button>
+                                <div class="dropdown">
+                                    <button class="btn btn-link p-0 text-muted" type="button" data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-pencil"></i> Edit</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-printer"></i> Print</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                            </div>
+                            <div class="carousel-inner">
+                                <!-- must be insert image -->
+
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
+                                    data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
+                                    data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Payment -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h3 class="h6 fw-bold">writer</h3>
+                                <span class="me-3 detail-member-id">hello</span>
+                                <h3 class="h6 fw-bold">Description</h3>
+                                <p>
+                                    <span class="detail-description"></span>
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <!-- Customer Notes -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="h6 fw-bold">Address</h3>
+                        <p class="detail-address">
+                            ㅇㅇㅇ ㅇㅇㅇ ㅇㅇ동 11길 11
+                        </p>
+                        <h3 class="h6 fw-bold">Tel. Number</h3>
+                        <p class="detail-telNo">
+                            02-303-3030
+                        </p>
+                        <h3 class="h6 fw-bold">lon,lat</h3>
+                        <p class="detail-lon">
+                            102,123
+                        </p>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <!-- Shipping information -->
+                    <div class="card-body">
+                        <strong>지도로 가기</strong>
+                        <button class="btn btn-primary"><i class="bi bi-sign-turn-left"></i></button>
+                    </div>
+                    <div class="card-body">
+                        <strong>거리뷰 보기</strong>
+                        <button class="btn btn-info"><i class="bi bi-webcam-fill"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/api/poi.js}"></script>
 <script>
+    (async function () {
+        let pathName = window.location.pathname;
+        console.log(pathName.lastIndexOf("detail/"))
+        let poiId = pathName.substring(pathName.lastIndexOf('detail/') + 7, pathName.length)
+        try {
+            let res = fetchDetailPoi(poiId).then(res => res.json()).then(res => {
+                handlePoiDetail(res)
+            });
+        } catch (e) {
+            console.log(e)
+        }
+    })()
+    const detailClassEnum = {
+        id: '.detail-id',
+        name: '.detail-name',
+        description: '.detail-description',
+        telNo: '.detail-telNo',
+        coordinate: '.detail-lon',
+    }
+    let handlePoiDetail = (poi) => {
+        console.log(poi)
+        poi['coordinate'] = [poi.lon, poi.lat]
+        poi['id'] = '#' + poi.id
+
+        let keys = Object.keys(detailClassEnum)
+        for (var key of keys) {
+            let element = document.querySelector(detailClassEnum[key])
+            element.innerText = poi[key] || 'nothing tel Number'
+        }
+        //member
+        let memberIdElement = document.querySelector('.detail-member-id')
+        memberIdElement.innerText = poi['member'].id
+        //categor
+        const category = poi.category;
+        let categoryElement = document.querySelector('.detail-category')
+        categoryElement.innerHTML = `
+                                    <span class="badge rounded-pill bg-primary">${category.largeClassName} </span>
+                                    <span class="badge rounded-pill bg-info">${category.middleClassName} </span>
+                                    <span class="badge rounded-pill bg-success">${category.smallClassName} </span>
+                                    <span class="badge rounded-pill bg-secondary">${category.detailClassName} </span>
+                                    <span class="badge rounded-pill bg-black">${category.bottomClassName} </span>
+        `
+        //images
+        let carousel = toImageTag(poi.images)
+        let imageListElement = document.querySelector(".carousel-inner");
+        imageListElement.innerHTML = carousel.imageList
+
+        let element1 = document.querySelector(".carousel-indicators");
+        element1.innerHTML=carousel.indicatorList
+
+
+
+    }
 </script>
+<script th:src="@{/js/image.js}"></script>
 </body>
 </html>

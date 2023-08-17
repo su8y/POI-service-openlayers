@@ -11,9 +11,9 @@
 </head>
 <body>
 <th:block th:replace="/fragment/nav.html :: my-navbar"/>
-<div class="d-flex my-container">
-    <div class="home-side-bar position-relative">
-        <div class="d-flex justify-content-between"  style="
+<div class="d-flex my-container" style="    height: calc(100% - 71px);">
+    <div class="home-side-bar position-relative d-none">
+        <div class="d-flex justify-content-between" style="
         background: #dddddd;
         position: sticky;
         top: -7.5px;
@@ -46,9 +46,12 @@
         </div>
     </div>
 </div>
+<!--<th:block th:replace="/fragment/footer.html :: my-content"></th:block>-->
 
 <script th:src="@{js/handle/side_bar.js}" defer></script>
 <script th:src="@{/js/api/poi.js}"></script>
 <script th:src="@{/js/map.js}"></script>
+<script th:src="@{/js/image.js}"></script>
+
 </body>
 </html>

@@ -4,17 +4,21 @@
     <th:block th:fragment="my-header">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta charset="UTF-8">
-        <link rel="stylesheet"
-              th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"
-        />
+        <script th:src="@{/node_modules/ol/dist/ol.js}"></script>
+        <script th:src="@{/node_modules/jquery/dist/jquery.min.js}"></script>
+
+        <script th:src="@{/node_modules/bootstrap/dist/js/bootstrap.bundle.js}"></script>
+        <script th:src="@{/node_modules/bootstrap/dist/js/bootstrap.min.js}"></script>
+        <script th:src="@{/node_modules/popper.js/dist/umd/popper.min.js}"></script>
+        <script th:src="@{/node_modules/popper.js/dist/umd/popper.js}"></script>
+        <script th:src="@{/node_modules/bootstrap/js/dist/carousel.js}"></script>
+        <link rel="stylesheet" th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" th:href="@{/node_modules/bootstrap/dist/css/bootstrap-utilities.min.css}"/>
         <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
         <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
-        <script th:src="@{/node_modules/ol/dist/ol.js}"></script>
         <link rel="stylesheet" href="../../static/css/style.css" th:href="@{/css/style.css}">
         <link rel="stylesheet" th:href="@{/node_modules/bootstrap-icons/font/bootstrap-icons.min.css}">
-        <script th:src="@{/node_modules/jquery/dist/jquery.min.js}"></script>
-        <script th:src="@{/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
-        <script th:src="@{/node_modules/popper.js/dist/umd/popper.min.js}"></script>
+        <link rel="stylesheet" th:href="@{/css/poi.css}"/>
     </th:block>
 </head>
 <body>

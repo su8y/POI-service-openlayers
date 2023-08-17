@@ -1,0 +1,8 @@
+:root {
+    --white: #ffffff
+}
+
+#popup {
+    background-color: var(--white);
+    border: 1px solid rgba(24, 1, 1, 0.74);
+}

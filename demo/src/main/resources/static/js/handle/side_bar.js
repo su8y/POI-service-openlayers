@@ -44,6 +44,7 @@ function poiSideUpdateList(result, ...option) {
 
         let itemRoot = document.createElement('div');
         itemRoot.classList.add('item')
+        itemRoot.dataset.id=data.id
         let itemTitle = document.createElement('div');
         itemTitle.classList.add('item-title')
         itemTitle.innerText = data.name
