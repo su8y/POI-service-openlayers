@@ -3,11 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
 </head>
 <body>
 
-<div class="row position-absolute text-end" th:fragment="my-searh-option"
+<div class="row position-absolute text-end mt-1 me-1 rounded-3 w-100 " th:fragment="my-searh-option"
      style="z-index: 1; right: 0; margin:0">
+  <div class="col col-3 d-flex flex-column align-items-center justify-content-between " style="">
+    <div><strong>검색어</strong></div>
+    <input id="poi-search-input-text" class="form-control" type="text" name="inputText"/>
+  </div>
   <div id="cate-code" class="d-none"></div>
   <div class="col d-flex flex-column align-items-center">
     <div><strong>1차 분류</strong></div>
@@ -43,8 +48,7 @@
 
     </select>
   </div>
-  <script th:src="@{/js/api/categoryApi.js}"></script>
-  <script th:src="@{/js/handle/category.js}"></script>
+  <script type="module" src="/js/category/index.js"></script>
 </div>
 
 

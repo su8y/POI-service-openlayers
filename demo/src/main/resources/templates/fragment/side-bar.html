@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
-          th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"/>
 </head>
 <body>
+<!--경로 사이드바-->
 <div th:fragment="route-list-side-bar" class="container route-list-side-bar d-none">
-    <button class="btn text-decoration-underline">경유지 추가하기</button>
-    <div class="row">
+    <button class="btn text-decoration-underline" id="add-waypoints-btn">경유지 추가하기</button>
+    <form id="route-search-form" class="row">
         <label for="start-point">출발지</label>
-        <input type="text" id="start-point"/>
+        <input type="text" class="form-control" id="start-point" name="start"/>
+
+        <div id="way-point-list">
+            <!--            경유지 리스트-->
+        </div>
         <label for="end-point">도착지</label>
-        <input type="text" id="end-point"/>
-    </div>
+        <input type="text" class="form-control" id="end-point" name="goal"/>
+        <button class="btn btn-primary my-3">검색</button>
+    </form>
     <div class="row">
         <div class="btn-group">
             <button class="btn btn-primary">대중교통</button>
@@ -22,107 +26,46 @@
             <button class="btn btn-outline-primary">도보</button>
         </div>
     </div>
-    <div class="d-flex flex-column align-items-center bg-white mb-2 route-list-select-item">
-        <img class="route-list-img"
-             src="../static/images/img.png" th:src="@{/images/img.png}" alt="순대국이미지">
-        <div class="rounded-5 d-flex w-75 position-relative px-5 route-item-title offcanvas-top flex-sm-row flex-column flex-md-row justify-content-between text-start "
-        >
-            <div>
-                <div class="d-block h5 ">0asdfasdfasd</div>
-                <div class="d-block h5 ">-> 도착지</div>
-            </div>
-            <div class="text-end">
-                43분 13km
-            </div>
-        </div>
-        <div class="w-100 px-2 py-1">
-            <div>00번 타고</div>
-            <div>00번 타고</div>
-            <div>00번 타고</div>
-            <div>00번 타고</div>
-            <div>00번 타고</div>
-            <div class="text-end fs-0">택시비120원</div>
-            <div class="text-end">택시비120원</div>
-        </div>
+    <div id="route-list">
     </div>
 
-    <div class="d-flex align-items-center bg-white  route-list-item">
-        <div class="w-100 fs-4 text-center">43분 43km</div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
     </div>
+    <script type="module" src="js/route/sider/index.js"></script>
 </div>
+<!--POI 사이드 바-->
 <div th:fragment="poi-list-side-bar" class="poi-list-side-bar">
     <div class="align-items-start position-sticky" style="background-color: #dddddd; top: 29px">
-        <div class="d-flex flex-column">
-            <h6>산업>서비스산업>기타서비스 검색결과</h6>
+        <div id="search-spec" class="d-flex flex-column mt-3">
+            <!--            검색 조건 필드-->
         </div>
         <ul id="poi-page-field" class="pagination">
-
+            <!--            페이지네이션 필드-->
         </ul>
     </div>
     <hr/>
     <div class="poi-side-list">
-        <div class=" item item-detail">
-            <img src="../static/images/img.png" th:src="@{/images/img.png}" alt="순대국이미지">
-            <div class="list-header">
-                <div class="item-title">
-                    00용역
-                </div>
-                <div class="item-category">산업/서비스산업/기타서비스</div>
-            </div>
-            <p class="item-content">
-                <span>asdfasdfasdf</span>
-                <span>asdfasdfasdf</span>
-                <span>asdfasdfasdf</span>
-                <span>asdfasdfasdf</span>
-                <span>asdfasdfasdf</span>
-                <span>asdfasdfasdf</span>
-                <span>asdfasdfasdf</span>
-                <span>asdfasdfasdf</span>
-                <span>asdfasdfasdf</span>
-                <span>asdfasdfasdf</span>
-            </p>
-            <div class="item-action">
-                <div class="btn btn-outline-info">경로 찾기</div>
-                <div class="btn btn-outline-primary">로드뷰</div>
-            </div>
-
-        </div>
-    </div>
-</div>
-<div th:fragment="item">
-    <div class="item">
-        <div class="item-title" th:text="${title}+ wolrd">
-        </div>
-        <div class="item-category" th:text="${category} + world">
-            산업/서비스산업/기타서비스
-        </div>
+        <!--        POI Item필드-->
     </div>
 </div>
 
-<div class=" item item-detail" th:fragment="detail-item">
-    <img src="/images/img.png" alt="순대국이미지">
-    <div class="list-header">
-        <div class="item-title">
-            00용역
-        </div>
-        <div class="item-category">산업/서비스산업/기타서비스</div>
-    </div>
-    <p class="item-content">
-        <span>asdfasdfasdf</span>
-        <span>asdfasdfasdf</span>
-        <span>asdfasdfasdf</span>
-        <span>asdfasdfasdf</span>
-        <span>asdfasdfasdf</span>
-        <span>asdfasdfasdf</span>
-        <span>asdfasdfasdf</span>
-        <span>asdfasdfasdf</span>
-        <span>asdfasdfasdf</span>
-        <span>asdfasdfasdf</span>
-    </p>
-    <div class="item-action">
-        <div class="btn btn-outline-info">경로 찾기</div>
-        <div class="btn btn-outline-primary">로드뷰</div>
-    </div>
-</div>
 </body>
 </html>

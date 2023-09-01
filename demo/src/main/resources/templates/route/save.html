@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>save Route Page</title>
+    <th:block th:insert="/fragment/header.html :: my-header"></th:block>
+</head>
+<body>
+<th:block th:replace="/fragment/nav.html :: my-navbar"></th:block>
+<div class="container pt-4 g-2">
+    <form id="saveForm">
+        <div class="row">
+            <label for="route-title" class="form-label">
+                제목
+            </label>
+            <input name="name" type="text" class="form-control" id="route-title" placeholder="제목"/>
+        </div>
+        <div class="row">
+            <label for="route-description">설명</label>
+            <textarea name="description" class="form-control" id="route-description" rows="3"></textarea>
+        </div>
+        <div class="row">
+            <div class="mb-3">
+                <label for="formFileMultiple" class="form-label">이미지 추가하기</label>
+                <input name="images" class="form-control" type="file" id="formFileMultiple" multiple>
+            </div>
+        </div>
+        <div style="width: 5rem; height: 5rem; background-color: gray">
+            <div style="width: 5rem; height: 5rem; background-color: gray">
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <button class="btn btn-primary mt-3 w-25" id="submitBtn" type="submit">저장하기</button>
+        </div>
+    </form>
+</div>
+
+
+
+<script th:src="@{/node_moduels/bootstrap/dist/js/bootstrap.js}"></script>
+
+<script src="../../static/node_modules/ol/dist/ol.js" th:src="@{/node_modules/ol/dist/ol.js}"></script>
+
+
+</body>
+</html>

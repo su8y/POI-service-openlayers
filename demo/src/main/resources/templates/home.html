@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <title>경로찾기</title>
     <th:block th:insert="/fragment/header.html :: my-header"/>
-    <link rel="stylesheet" href="../static/node_modules/bootstrap/dist/css/bootstrap.min.css"
-          th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" href="../static/css/sider.css"
-          th:href="@{/css/sider.css}"/>
+    <link rel="stylesheet" href="/css/sider.css"/>
 </head>
 <body>
 <th:block th:replace="/fragment/nav.html :: my-navbar"/>
@@ -25,11 +22,11 @@
 
             </div>
             <div>
-                <button type="button" class="btn btn-outline-primary" id="route-list-btn">
-                    <i class="bi bi-sign-turn-right"></i>
+                <button type="button" class="btn btn-outline-primary fw-bold" id="route-list-btn">
+                    경로 <i class="bi bi-sign-turn-right"></i>
                 </button>
-                <button type="button" class="btn btn-primary" id="poi-list-btn">
-                    <i class="bi bi-shop-window"></i>
+                <button type="button" class="btn btn-primary fw-bold" id="poi-list-btn">
+                    지점 <i class="bi bi-shop-window"></i>
                 </button>
             </div>
         </div>
@@ -40,18 +37,46 @@
     <div class="col position-relative">
         <th:block th:replace="/fragment/zido-search-option.html :: my-searh-option "></th:block>
         <div id="map" class="col">
-            <button id="current-position-research-btn" type="button" class="research-btn">
-                <i class="bi bi-repeat fs-3"></i>
+            <button id="current-position-research-btn" type="button"
+                    class="research-btn btn btn-primary d-inline-block">
+                현재 위치 재검색<i class="bi bi-repeat fs-5 d-inline-block ms-2"></i>
             </button>
         </div>
     </div>
+
 </div>
-<!--<th:block th:replace="/fragment/footer.html :: my-content"></th:block>-->
+<div id="pano-box" class="d-none">
+    <button class="btn js-pano-close ">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    <pano-element coord="127.1051814,37.3519605"></pano-element>
+    <ul class="pano-footer">
+        <li>
+            <img src="/images/img.png"/>
+            <div class="content">
+                <div>판교 어린이</div>
+                <p>어린이집</p>
+            </div>
+        </li>
+    </ul>
+</div>
+<!-- Button trigger modal -->
+<!-- Button trigger modal -->
+<save-modal-element key="exampleModalCenter"></save-modal-element>
 
-<script th:src="@{js/handle/side_bar.js}" defer></script>
-<script th:src="@{/js/api/poi.js}"></script>
-<script th:src="@{/js/map.js}"></script>
-<script th:src="@{/js/image.js}"></script>
+<script src="/js/OlMap.js"></script>
+<script type="module" src="/js/poi/sidebar/handle.js" defer></script>
+<script type="module" src="/js/poi/sidebar/index.js" defer></script>
+<script type="module" src="/js/poi/index.js"></script>
+<script src="/js/home/marker.js"></script>
+<script src="/js/home/popup.js"></script>
+<script src="/js/index.js"></script>
 
+<script src="/js/common/util.js" defer></script>
+<script src="/js/poi/api/poi.js"></script>
+<script src="/js/home/image.js"></script>
+
+<script type="module" src="/js/pano/index.js"></script>
+<th:block th:replace="/fragment/footer.html :: my-footer"></th:block>
 </body>
 </html>

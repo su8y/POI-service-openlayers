@@ -7,8 +7,8 @@
           th:href="@{/node_modules/bootstrap/dist/css/bootstrap.min.css}"/>
 </head>
 <body>
-<div class="row " th:fragment="my-searh-option" style="z-index: 100; left: 70px">
-    <div id="cate-code" class="d-none"></div>
+<div class="row w-100 " th:fragment="my-searh-option" style="z-index: 100; left: 70px">
+    <div id="cate-code" class="d-none w-100"></div>
     <div class="col d-flex flex-column align-items-center">
         <div><strong>1차 분류</strong></div>
         <select name="largeClassId" id="cate-1" class="form-select rounded-5" aria-label="Default select example">
@@ -17,35 +17,34 @@
         </select>
     </div>
     <div class="col d-flex flex-column align-items-center">
-        <div class="" id="">2차 분류</div>
+        <div class="fw-bold" id="">2차 분류</div>
         <select name="middleClassId" id="cate-2" class="form-select rounded-5 " aria-label="Default select example">
             <option disabled selected value>None</option>
 
         </select>
     </div>
     <div class="col d-flex flex-column align-items-center">
-        <div class="">3차 분류</div>
+        <div class="fw-bold">3차 분류</div>
         <select name="smallClassId" id="cate-3" class="form-select rounded-5 " aria-label="Default select example">
             <option disabled selected value>None</option>
 
         </select>
     </div>
     <div class="col d-flex flex-column align-items-center">
-        <div class="">4차 분류</div>
+        <div class="fw-bold">4차 분류</div>
         <select name="detailClassId" id="cate-4" class="form-select rounded-5 " aria-label="Default select example">
             <option disabled selected value>None</option>
         </select>
     </div>
     <div class="col d-flex flex-column align-items-center">
-        <div class="">5차 분류</div>
+        <div class="fw-bold">5차 분류</div>
         <select name="bottomClassId" id="cate-5" class="form-select rounded-5 " aria-label="Default select example">
 
             <option disabled selected value>None</option>
 
         </select>
     </div>
-    <script th:src="@{/js/api/categoryApi.js}"></script>
-    <script th:src="@{/js/handle/category.js}"></script>
+    <script type="module" src="/js/category/index.js"></script>
 </div>
 
 </body>

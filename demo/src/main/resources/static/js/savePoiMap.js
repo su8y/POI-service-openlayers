@@ -83,7 +83,6 @@ saveForm.addEventListener('submit', (e) => {
     let coordinate = mapObj1.getCoordinate();
     const categoryData = getCategoryByDom();
     const categoryCode = document.getElementById("cate-code").textContent;
-    console.log("categorycode",categoryCode);
     const frmData = new FormData(e.target);
     let poiRequestData = {
         name: frmData.get("name"),
