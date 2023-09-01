@@ -18,7 +18,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 import static com.example.core.category.QCategory.*;
-import static com.example.core.poi.dto.QPoi.*;
+import static com.example.core.poi.QPoi.*;
 import static com.example.core.auth.QMember.*;
 
 
@@ -28,7 +28,6 @@ public class QueryPOIRepositoryImpl implements QueryPOIRepository {
 
     @Override
     public Page<Poi> findByQuerySearchParam(POISearchParam searchParam) {
-        System.out.println("findByQuerySearchParam");
         String inputText = searchParam.getInputText();
         Pageable pageable = searchParam.getPageable();
         Polygon polygon = searchParam.getPolygon();
@@ -68,7 +67,6 @@ public class QueryPOIRepositoryImpl implements QueryPOIRepository {
                         poi.name,
                         poi.coordinates,
                         poi.description,
-                        poi.description,
                         poi.telNo,
                         poi.category
                 ))
@@ -99,7 +97,7 @@ public class QueryPOIRepositoryImpl implements QueryPOIRepository {
 
     public BooleanExpression equalsInputText(String inputText) {
         if (!StringUtils.hasText(inputText)) return null;
-        return poi.name.like(inputText);
+        return poi.name.contains(inputText);
     }
 
     public BooleanExpression withinBbox(Polygon polygon) {
@@ -114,7 +112,7 @@ public class QueryPOIRepositoryImpl implements QueryPOIRepository {
             booleanExpression = booleanExpression.and(category.middleClassId.eq(selectedCategory.getMiddleClassId()));
         if (selectedCategory.getSmallClassId() != null)
             booleanExpression = booleanExpression.and(category.smallClassId.eq(selectedCategory.getSmallClassId()));
-        if (selectedCategory.getBottomClassId() != null)
+        if (selectedCategory.getDetailClassId() != null)
             booleanExpression = booleanExpression.and(category.detailClassId.eq(selectedCategory.getDetailClassId()));
         if (selectedCategory.getBottomClassId() != null)
             booleanExpression = booleanExpression.and(category.bottomClassId.eq(selectedCategory.getBottomClassId()));

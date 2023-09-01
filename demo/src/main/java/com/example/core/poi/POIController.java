@@ -112,9 +112,6 @@ public class POIController {
 
     @DeleteMapping("/{poiIdList}")
     public ResponseEntity<?> removePoi(@PathVariable(name = "poiIdList") List<Long> poiIdList) {
-        for (Long aLong : poiIdList) {
-            System.out.println(aLong);
-        }
         poiService.removePOI(poiIdList);
         return ResponseEntity.ok("Delete Success");
     }

@@ -4,13 +4,12 @@ import com.example.core.auth.Member;
 import com.example.core.auth.MemberRepository;
 import com.example.core.category.Category;
 import com.example.core.file.FileRepository;
-import com.example.core.file.FileService;
+import com.example.core.file.FileUtil;
 import com.example.core.file.UploadImage;
 import com.example.core.file.common.TargetType;
 import com.example.core.poi.dto.POIResponseDto;
 import com.example.core.category.CategoryRepository;
 import com.example.core.poi.dto.PoiDTO;
-import com.example.core.poi.repository.POIMapper;
 import com.example.core.poi.repository.POIRepository;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -30,9 +29,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class POIService {
-    private final FileService fileService;
+    private final FileUtil fileUtil;
     private final POIRepository poiRepository;
-    private final POIMapper poiMapper;
     private final CategoryRepository categoryRepository;
     private final GeometryFactory geometryFactory;
     private final MemberRepository memberRepository;
@@ -53,11 +51,12 @@ public class POIService {
         Poi save = poiRepository.save(poi);
         //add upload-image
         try {
-            List<UploadImage> uploadImages = fileService.uploadImages(images);
+            List<UploadImage> uploadImages = fileUtil.uploadImages(images);
             uploadImages.forEach(uploadImage -> {
                 uploadImage.setTargetId(save.getId());
                 uploadImage.setType(TargetType.POI);
             });
+            fileRepository.saveAll(uploadImages);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -65,10 +64,6 @@ public class POIService {
 
     public List<Poi> findByName(String name) {
         return poiRepository.findByName(name);
-    }
-
-    public List<Poi> findAllPoi() {
-        return poiMapper.selectAll();
     }
 
     public void removePOI(List<Long> id) {
@@ -89,8 +84,10 @@ public class POIService {
         Poi poi = poiRepository.findById(id).orElseThrow();
 
         PoiDTO dto = poi.toDTO();
+
         List<UploadImage> uploadImagesByTarget = fileRepository.findUploadImagesByTarget(dto.getId(), TargetType.POI);
         dto.setImages(uploadImagesByTarget);
+
 
         return dto;
     }

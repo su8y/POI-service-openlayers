@@ -31,7 +31,6 @@ public class GeomMethodArgumentsResolver implements HandlerMethodArgumentResolve
         HttpServletRequest req = (HttpServletRequest) webRequest.getNativeRequest();
         String parameter1 = req.getParameter(parameter.getParameterName());
         if (parameter1 == null) throw new IllegalArgumentException();
-        log.info(parameter1);
 
         String[] split = parameter1.split(",");
 
