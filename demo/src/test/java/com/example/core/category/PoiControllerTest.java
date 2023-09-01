@@ -39,7 +39,7 @@ class PoiControllerTest {
     @BeforeAll
     public static void setup() {
         GeometryFactory geometryFactory = new GeometryFactory();
-        mvc = MockMvcBuilders.standaloneSetup(new POIController(null))
+        mvc = MockMvcBuilders.standaloneSetup(new POIController(null,null))
                 .setCustomArgumentResolvers(new GeomMethodArgumentsResolver(geometryFactory))
                 .build();
     }
