@@ -19,11 +19,14 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
-mybatis:
-  mapper-locations: classpath:mapper/**/*.xml
-  type-aliases-package: com.example.core.model
+  config:
+    import: classpath:security-env.yml
+
 jwt:
   secret: YXNkZndlZmFzZGZhc2R2a25hd2V2aXVhc25sa3Zram5sYWR2
+
+mybatis:
+  config-location: classpath:mapper/mybatis-config.xml
 ---
 
 spring:
@@ -35,3 +38,4 @@ spring:
     password: postgres
     driver-class-name: org.postgresql.Driver
 file.dir: C:/poi-project/images/
+
