@@ -15,7 +15,6 @@ public class LocalRedisConfig {
     private final int redisPort;
 
     public LocalRedisConfig(@Value("${spring.redis.port}") int redisPort, @Value("${spring.redis.host}") String redisHost) {
-        log.info("Redis :: contructor");
         this.redisPort = redisPort;
         this.redisHost = redisHost;
     }
@@ -27,7 +26,6 @@ public class LocalRedisConfig {
 
     @PostConstruct
     public void startRedisServer() {
-        log.info("Redis :: postcontructor");
         redisServer = new RedisServer(redisHost, redisPort);
 //        redisServer.start();
     }

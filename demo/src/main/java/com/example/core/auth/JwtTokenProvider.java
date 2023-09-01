@@ -92,10 +92,6 @@ public class JwtTokenProvider {
 
         // UserDetails 객체를 만들어서 Authentication 리턴
         UserDetails principal = new User(claims.getSubject(), "", authorities);
-        log.info(claims.getSubject());
-        for (GrantedAuthority authority : authorities) {
-            log.info(authority.toString());
-        }
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 

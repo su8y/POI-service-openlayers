@@ -13,7 +13,7 @@
     <form>
         <div class="mb-3">
             <label for="id" class="form-label">Id</label>
-            <div class="alert alert-danger" role="alert">아이디가 이미 존재합니다.</div>
+            <div id="errorMessage" class="alert alert-danger d-none" role="alert">아이디가 이미 존재합니다.</div>
             <input type="text" class="form-control" id="id" aria-describedby="idHelp">
             <div id="idHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
@@ -43,17 +43,27 @@
         let email = document.querySelector("#email").value;
         let password = document.querySelector("#password").value;
         try {
-            const res = await registerFunc(memberId, email, password);
+            let res = await registerFunc(memberId, email, password).then(res=>res.json());
             console.log(res)
-            alert("resgister Success")
+            if(res.statusCodeValue === 200){
+                console.log(res)
+                alert(`${res.body.memberId}님 ${res.body.message}`)
+                window.location.replace("/signIn")
+            }else{
+                const errorMessageElement = document.querySelector("#errorMessage");
+                console.log(res)
+                errorMessageElement.innerText = res.body.message;
+                errorMessageElement.classList.remove('d-none');
+                alert(`${res.body.memberId}는 ${res.body.message}`)
+            }
         } catch (e) {
             console.log(e)
         }
     })
 
 
-    const registerFunc = async (memberId, email, password) => {
-        const res = fetch("http://localhost:8080/auth/signup", {
+    const registerFunc = (memberId, email, password) => {
+        return fetch("http://localhost:8080/auth/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -64,8 +74,6 @@
                 password
             })
         })
-        if (!res.ok) throw new Error("회원가입 실패")
-        return res.then(res => res.json());
     }
 
 

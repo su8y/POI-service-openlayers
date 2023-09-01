@@ -38,6 +38,9 @@ public class CustomAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     private String resolveToken(HttpServletRequest request) {
         String header = request.getHeader("access-token");
+        if(StringUtils.hasText(header)){
+            header = request.getHeader("Authorization");
+        }
         if (StringUtils.hasText(header))
             return header.substring(6); // extract prefix [Bearer]
 

@@ -1,14 +1,13 @@
 package com.example.core.auth;
 
+import com.example.core.auth.dto.AuthResponse;
 import com.example.core.util.TokenInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.UnsupportedEncodingException;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -42,7 +38,7 @@ public class MemberController {
     ) {
         TokenInfo tokenInfo = memberService.login(memberId, password);
         // optional properties
-        Cookie cookie = new Cookie("access-token", tokenInfo.getGrantType()+tokenInfo.getAccessToken());
+        Cookie cookie = new Cookie("access-token", tokenInfo.getGrantType() + tokenInfo.getAccessToken());
         cookie.setMaxAge(7 * 24 * 60 * 60);
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
@@ -56,7 +52,7 @@ public class MemberController {
 
         response.addCookie(rc);
         response.addCookie(cookie);
-        return "/route/find";
+        return "home";
     }
 
     /**
@@ -66,11 +62,22 @@ public class MemberController {
      * @return response status & link status
      * @throws UnsupportedEncodingException
      */
-    @PostMapping(value = "/auth/signup", consumes = {"application/json"})
-    public EntityModel<ResponseEntity<String>> register(@RequestBody MemberRegisterRequestDto memberRegisterRequestDto) throws UnsupportedEncodingException {
-        memberService.signup(Member.from(memberRegisterRequestDto, passwordEncoder));
-        return EntityModel.of(ResponseEntity.ok("memberId: " + memberRegisterRequestDto.getMemberId()),
-                linkTo(methodOn(MemberController.class).login(memberRegisterRequestDto.getMemberId(), memberRegisterRequestDto.getPassword(), null, null)).withRel("register-member"),
+    @PostMapping(value = "/auth/signup",produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {"application/json"})
+    @ResponseBody
+    public EntityModel<ResponseEntity<AuthResponse>> register(@RequestBody MemberRegisterRequestDto memberRegisterRequestDto) {
+
+        AuthResponse authResponse = new AuthResponse(memberRegisterRequestDto.memberId);
+        try {
+            memberService.signup(Member.from(memberRegisterRequestDto, passwordEncoder));
+        } catch (DuplicateKeyException exception) {
+            authResponse.setMessage(AuthResponse.REGISTER_DENINED_MESSAGE);
+            System.out.println("BadRequest");
+
+            return EntityModel.of(ResponseEntity.badRequest().body(authResponse));
+        }
+        authResponse.setMessage(AuthResponse.REGISTER_SUCCESSED_MESSAGE);
+        System.out.println("HI");
+        return EntityModel.of(ResponseEntity.ok(authResponse),
                 linkTo(methodOn(MemberController.class).register(memberRegisterRequestDto)).withSelfRel()
         );
     }
@@ -89,8 +96,6 @@ public class MemberController {
     public ResponseEntity<?> reissue(@CookieValue(name = "refresh-token") String requestRefreshToken,
                                      @CookieValue(name = "access-token") String requestAccessToken,
                                      HttpServletResponse response) {
-        System.out.println(requestAccessToken);
-        System.out.println(requestRefreshToken);
         TokenInfo reissuedTokenDto = memberService.reissue(requestAccessToken, requestRefreshToken);
         if (reissuedTokenDto != null) { // 토큰 재발급 성공
             // RT 저장
